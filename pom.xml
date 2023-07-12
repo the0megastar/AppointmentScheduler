@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.michaelpirlis.appointmentscheduler/com.michaelpirlis.appointmentscheduler.HelloApplication
+                                com.michaelpirlis.appointmentscheduler/com.michaelpirlis.appointmentscheduler.MainMenu
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

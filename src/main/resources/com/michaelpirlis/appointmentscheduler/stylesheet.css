@@ -1,0 +1,52 @@
+.scene{
+    -fx-background-radius: 0 0 10px 10px;
+    -fx-background-color: #2B2D30;
+    -fx-text-fill: #FFFFFF;
+}
+
+.font {
+    -fx-font-family: 'Arial', Arial, sans-serif;
+    -fx-font-size: 15px;
+    -fx-font-weight: normal;
+    -fx-text-fill: #FFFFFF;
+}
+
+.button {
+    -fx-padding: 1px 14px;
+    -fx-background-radius: 6px;
+    -fx-border-color: transparent;
+    -fx-text-fill: #FFFFFF;
+    -fx-min-height: 0;
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #4B91F7, #367AF6);
+    -fx-effect: dropshadow(three-pass-box, rgba(54, 122, 246, 0.25), 1.5, 0, 0, 0.5);
+}
+
+.button:disabled {
+    -fx-cursor: default;
+    -fx-opacity: 0.3;
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(#51A9EE, #147BCD);
+    -fx-border-color: #1482D0;
+    -fx-background-radius: 6px;
+    -fx-background-insets: 0;
+    -fx-text-decoration: none;
+}
+
+.button:pressed {
+    -fx-background-color: linear-gradient(#3D94D9, #0067B9);
+    -fx-border-color: #006DBC;
+    -fx-background-radius: 6px;
+    -fx-background-insets: 0;
+    -fx-outline: none;
+}
+
+.button:focused,
+.button:armed {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(131, 192, 253, 0.5), 3, 0, 0, 0);
+    -fx-outline: none;
+}
