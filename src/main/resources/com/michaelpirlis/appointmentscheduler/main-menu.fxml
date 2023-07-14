@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" styleClass="scene" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.michaelpirlis.appointmentscheduler.MainMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" styleClass="scene" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.michaelpirlis.appointmentscheduler.MainMenuController">
    <BorderPane prefHeight="600.0" prefWidth="1024.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
       <center>
          <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
@@ -33,8 +33,8 @@
                   <TableColumn fx:id="appointmentLocationColumn" maxWidth="1.7976931348623157E308" prefWidth="120.0" text="Location" />
                   <TableColumn fx:id="appointmentContactColumn" maxWidth="1.7976931348623157E308" prefWidth="120.0" text="Contact" />
                   <TableColumn fx:id="appointmentTypeColumn" maxWidth="1.7976931348623157E308" prefWidth="130.0" text="Type" />
-                  <TableColumn fx:id="appointmentStartColumn" maxWidth="1.7976931348623157E308" prefWidth="130.0" text="Start" />
-                  <TableColumn fx:id="appointmentEndColumn" maxWidth="1.7976931348623157E308" prefWidth="130.0" text="End" />
+                  <TableColumn fx:id="appointmentStartColumn" maxWidth="1.7976931348623157E308" prefWidth="128.0" text="Start" />
+                  <TableColumn fx:id="appointmentEndColumn" maxWidth="1.7976931348623157E308" prefWidth="128.0" text="End" />
                </columns>
                <VBox.margin>
                   <Insets bottom="25.0" />
@@ -45,13 +45,13 @@
             </TableView>
             <TableView fx:id="allCustomerTable" focusTraversable="false" prefHeight="250.0" styleClass="font">
                <columns>
-                  <TableColumn fx:id="customerIdColumn" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="Customer ID" />
+                  <TableColumn fx:id="customerIdColumn" maxWidth="1.7976931348623157E308" prefWidth="60.0" text="Cust ID" />
                   <TableColumn fx:id="customerNameColumn" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="Name" />
                   <TableColumn fx:id="customerStreetColumn" maxWidth="1.7976931348623157E308" prefWidth="200.0" text="Street" />
-                  <TableColumn fx:id="customerStateColumn" maxWidth="1.7976931348623157E308" prefWidth="125.0" text="State / Province" />
+                  <TableColumn fx:id="customerStateColumn" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="State / Province" />
                   <TableColumn fx:id="customerCountryColumn" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="Country" />
                   <TableColumn fx:id="customerPostalColumn" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="Postal Code" />
-                  <TableColumn fx:id="customerPhoneColumn" maxWidth="1.7976931348623157E308" prefWidth="125.0" text="Phone" />
+                  <TableColumn fx:id="customerPhoneColumn" maxWidth="1.7976931348623157E308" prefWidth="136.0" text="Phone" />
                </columns>
                <effect>
                   <DropShadow />
@@ -85,7 +85,7 @@
                   <Font name="Avenir Book" size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="appointmentFilter" prefHeight="25.0" prefWidth="150.0" visibleRowCount="3">
+            <ComboBox fx:id="appointmentFilter" onAction="#changeAppointmentFilter" prefHeight="25.0" prefWidth="150.0" visibleRowCount="3">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>

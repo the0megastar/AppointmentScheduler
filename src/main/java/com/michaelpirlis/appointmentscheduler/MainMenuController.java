@@ -1,6 +1,8 @@
 package com.michaelpirlis.appointmentscheduler;
 
+import com.michaelpirlis.appointmentscheduler.helper.JDBC;
 import com.michaelpirlis.appointmentscheduler.model.Appointment;
+import com.michaelpirlis.appointmentscheduler.model.Customer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -15,13 +17,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import static com.michaelpirlis.appointmentscheduler.dao.AppointmentSQL.allAppointments;
+import static com.michaelpirlis.appointmentscheduler.dao.AppointmentSQL.*;
+import static com.michaelpirlis.appointmentscheduler.dao.CustomerSQL.allCustomers;
 
 public class MainMenuController extends Application implements Initializable {
 
@@ -42,7 +41,7 @@ public class MainMenuController extends Application implements Initializable {
     @FXML private TableColumn<Object, Object> customerCountryColumn;
     @FXML private TableColumn<Object, Object> customerPostalColumn;
     @FXML private TableColumn<Object, Object> customerPhoneColumn;
-    @FXML private TableView<Appointment> allCustomerTable;
+    @FXML private TableView<Customer> allCustomerTable;
 
     @FXML private ComboBox<String> appointmentFilter;
     @FXML private Button addAppointmentButton;
@@ -56,14 +55,44 @@ public class MainMenuController extends Application implements Initializable {
 
 
     public void initialize(URL location, ResourceBundle resources) {
+        JDBC.openConnection();
 
-        ObservableList<String> options = FXCollections.observableArrayList("All", "Weekly", "Monthly");
-        appointmentFilter.setItems(options);
-        appointmentFilter.getSelectionModel().selectFirst();
+        setupAppointmentFilter();
+        changeAppointmentFilter();
 
         appointmentTableSetup(allAppointmentTable, appointmentIdColumn, appointmentTitleColumn,
                 appointmentDescriptionColumn, appointmentLocationColumn, appointmentContactColumn,
                 appointmentTypeColumn, appointmentStartColumn, appointmentEndColumn);
+
+        customerTableSetup(allCustomerTable, customerIdColumn, customerNameColumn, customerStreetColumn,
+                customerPostalColumn, customerPhoneColumn, customerStateColumn, customerCountryColumn);
+    }
+
+    private void setupAppointmentFilter() {
+        ObservableList<String> options = FXCollections.observableArrayList("All", "Weekly", "Monthly");
+        appointmentFilter.setItems(options);
+        appointmentFilter.getSelectionModel().select("All");
+    }
+
+    @FXML
+    private void changeAppointmentFilter() {
+        appointmentFilter.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                allAppointmentTable.getItems().clear();
+
+                switch(newSelection) {
+                    case "All":
+                        allAppointmentTable.getItems().addAll(allAppointments());
+                        break;
+                    case "Weekly":
+                        allAppointmentTable.getItems().addAll(weeklyAppointments());
+                        break;
+                    case "Monthly":
+                        allAppointmentTable.getItems().addAll(monthlyAppointments());
+                        break;
+                }
+            }
+        });
     }
 
     static void appointmentTableSetup(TableView<Appointment> allAppointmentTable,
@@ -84,6 +113,24 @@ public class MainMenuController extends Application implements Initializable {
         appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("apptType"));
         appointmentStartColumn.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
         appointmentEndColumn.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
+    }
+
+    static void customerTableSetup(TableView<Customer> allCustomerTable,
+                                      TableColumn<Object, Object> customerIdColumn,
+                                      TableColumn<Object, Object> customerNameColumn,
+                                      TableColumn<Object, Object> customerStreetColumn,
+                                      TableColumn<Object, Object> customerPostalColumn,
+                                      TableColumn<Object, Object> customerPhoneColumn,
+                                      TableColumn<Object, Object> customerStateColumn,
+                                      TableColumn<Object, Object> customerCountryColumn) {
+        allCustomerTable.setItems(allCustomers());
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        customerStreetColumn.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
+        customerPostalColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+        customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        customerStateColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
+        customerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
     }
 
     /**

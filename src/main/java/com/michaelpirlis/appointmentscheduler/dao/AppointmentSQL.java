@@ -30,7 +30,8 @@ public class AppointmentSQL {
         String query = "SELECT appointments.*, contacts.Contact_Name "
                 + "FROM appointments JOIN contacts "
                 + "ON appointments.Contact_ID = contacts.Contact_ID "
-                + "WHERE appointments.Start >= NOW() AND appointments.Start < DATE_ADD(NOW(), INTERVAL 1 WEEK);";
+                + "WHERE WEEK(appointments.Start) = WEEK(NOW()) "
+                + "AND YEAR(appointments.Start) = YEAR(NOW());";
 
         return getAppointments(weeklyAppointments, query);
     }
@@ -41,12 +42,13 @@ public class AppointmentSQL {
         String query = "SELECT appointments.*, contacts.Contact_Name "
             + "FROM appointments JOIN contacts "
             + "ON appointments.Contact_ID = contacts.Contact_ID "
-            + "WHERE appointments.Start >= NOW() AND appointments.Start < DATE_ADD(NOW(), INTERVAL 1 MONTH);";
+            + "WHERE MONTH(appointments.Start) = MONTH(NOW()) "
+            + "AND YEAR(appointments.Start) = YEAR(NOW());";
 
         return getAppointments(monthlyAppointments, query);
     }
 
-    private static ObservableList<Appointment> getAppointments(ObservableList<Appointment> weeklyAppointments, String query) {
+    private static ObservableList<Appointment> getAppointments(ObservableList<Appointment> appointments, String query) {
         try {
             PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -70,9 +72,9 @@ public class AppointmentSQL {
                         resultSet.getInt("Customer_ID"),
                         resultSet.getInt("User_ID")
                 );
-                weeklyAppointments.add(appointment);
+                appointments.add(appointment);
             }
-            return weeklyAppointments;
+            return appointments;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
