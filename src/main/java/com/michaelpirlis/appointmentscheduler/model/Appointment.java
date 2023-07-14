@@ -3,6 +3,7 @@ package com.michaelpirlis.appointmentscheduler.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+
 public class Appointment {
     private int apptId;
     private String apptTitle;

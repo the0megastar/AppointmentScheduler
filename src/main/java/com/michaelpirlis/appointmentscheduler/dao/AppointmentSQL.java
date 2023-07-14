@@ -12,12 +12,41 @@ import java.sql.Timestamp;
 import static com.michaelpirlis.appointmentscheduler.helper.TimeConversions.convertTime;
 
 
-public class AppointmentDao {
+public class AppointmentSQL {
 
     public static ObservableList<Appointment> allAppointments() {
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
-        String query = "SELECT appointments.*, contacts.Contact_Name FROM appointments JOIN contacts ON appointments.Contact_ID = contacts.Contact_ID;";
 
+        String query = "SELECT appointments.*, contacts.Contact_Name "
+                + "FROM appointments JOIN contacts "
+                + "ON appointments.Contact_ID = contacts.Contact_ID;";
+
+        return getAppointments(allAppointments, query);
+    }
+
+    public static ObservableList<Appointment> weeklyAppointments() {
+        ObservableList<Appointment> weeklyAppointments = FXCollections.observableArrayList();
+
+        String query = "SELECT appointments.*, contacts.Contact_Name "
+                + "FROM appointments JOIN contacts "
+                + "ON appointments.Contact_ID = contacts.Contact_ID "
+                + "WHERE appointments.Start >= NOW() AND appointments.Start < DATE_ADD(NOW(), INTERVAL 1 WEEK);";
+
+        return getAppointments(weeklyAppointments, query);
+    }
+
+    public static ObservableList<Appointment> monthlyAppointments() {
+        ObservableList<Appointment> monthlyAppointments = FXCollections.observableArrayList();
+
+        String query = "SELECT appointments.*, contacts.Contact_Name "
+            + "FROM appointments JOIN contacts "
+            + "ON appointments.Contact_ID = contacts.Contact_ID "
+            + "WHERE appointments.Start >= NOW() AND appointments.Start < DATE_ADD(NOW(), INTERVAL 1 MONTH);";
+
+        return getAppointments(monthlyAppointments, query);
+    }
+
+    private static ObservableList<Appointment> getAppointments(ObservableList<Appointment> weeklyAppointments, String query) {
         try {
             PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -41,13 +70,14 @@ public class AppointmentDao {
                         resultSet.getInt("Customer_ID"),
                         resultSet.getInt("User_ID")
                 );
-                allAppointments.add(appointment);
+                weeklyAppointments.add(appointment);
             }
-            return allAppointments;
+            return weeklyAppointments;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
 //                allAppointments.add(createAppointment(resultSet));
 //            }
 //            return allAppointments;

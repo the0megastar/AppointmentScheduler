@@ -15,9 +15,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static com.michaelpirlis.appointmentscheduler.dao.AppointmentDao.allAppointments;
+import static com.michaelpirlis.appointmentscheduler.dao.AppointmentSQL.allAppointments;
 
 public class MainMenuController extends Application implements Initializable {
 
@@ -55,7 +59,7 @@ public class MainMenuController extends Application implements Initializable {
 
         ObservableList<String> options = FXCollections.observableArrayList("All", "Weekly", "Monthly");
         appointmentFilter.setItems(options);
-        appointmentFilter.getSelectionModel().selectFirst(); // Set the default value to "All"
+        appointmentFilter.getSelectionModel().selectFirst();
 
         appointmentTableSetup(allAppointmentTable, appointmentIdColumn, appointmentTitleColumn,
                 appointmentDescriptionColumn, appointmentLocationColumn, appointmentContactColumn,
