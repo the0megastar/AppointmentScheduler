@@ -3,16 +3,14 @@ package com.michaelpirlis.appointmentscheduler.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.time.ZonedDateTime;
-
 public class Appointment {
     private int apptId;
     private String apptTitle;
     private String apptDescription;
     private String apptLocation;
     private String apptType;
-    private ZonedDateTime apptStart;
-    private ZonedDateTime apptEnd;
+    private String apptStart;
+    private String apptEnd;
     private int customerId;
     private Customer customer;
     private int userId;
@@ -28,7 +26,7 @@ public class Appointment {
     }
 
     public Appointment(int apptId, String apptTitle, String apptDescription, String apptLocation, String customerContact,
-                       String apptType, ZonedDateTime apptStart, ZonedDateTime apptEnd, int customerId, int userId) {
+                       String apptType, String apptStart, String apptEnd, int customerId, int userId) {
         this.apptId = apptId;
         this.apptTitle = apptTitle;
         this.apptDescription = apptDescription;
@@ -42,7 +40,9 @@ public class Appointment {
     }
 
     public String getCustomerContact() {return customerContact;}
+
     public void setCustomerContact(String customerContact) {this.customerContact = customerContact;}
+
     public int getApptId() {return apptId;}
 
     public void setApptId(int apptId) {this.apptId = apptId;}
@@ -63,13 +63,13 @@ public class Appointment {
 
     public void setApptType(String apptType) {this.apptType = apptType;}
 
-    public ZonedDateTime getApptStart() {return apptStart;}
+    public String getApptStart() {return apptStart;}
 
-    public void setApptStart(ZonedDateTime start) {this.apptStart = apptStart;}
+    public void setApptStart(String start) {this.apptStart = apptStart;}
 
-    public ZonedDateTime getApptEnd() {return apptEnd;}
+    public String getApptEnd() {return apptEnd;}
 
-    public void setApptEnd(ZonedDateTime end) {this.apptEnd = apptEnd;}
+    public void setApptEnd(String end) {this.apptEnd = apptEnd;}
 
     public int getCustomerId() {return customerId;}
 
@@ -91,7 +91,4 @@ public class Appointment {
 
     public void setContactId(int contactId) {this.contactId = contactId;}
 
-//    public Contact getContact() {return contact;}
-//
-//    public void setContact(Contact contact) {this.contact = contact;}
 }

@@ -1,34 +1,33 @@
 package com.michaelpirlis.appointmentscheduler.dao;
 
-import com.michaelpirlis.appointmentscheduler.helper.JDBC ;
-import com.michaelpirlis.appointmentscheduler.helper.TimeConversions;
+import com.michaelpirlis.appointmentscheduler.helper.JDBC;
 import com.michaelpirlis.appointmentscheduler.model.Appointment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
-import java.time.ZonedDateTime;
+import static com.michaelpirlis.appointmentscheduler.helper.TimeConversions.convertTime;
 
 
 public class AppointmentDao {
-
 
     public static ObservableList<Appointment> allAppointments() {
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         String query = "SELECT appointments.*, contacts.Contact_Name FROM appointments JOIN contacts ON appointments.Contact_ID = contacts.Contact_ID;";
 
-//        String query = "SELECT * FROM appointments;";
-        TimeConversions timeConversions = new TimeConversions();
-
         try {
             PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                ZonedDateTime startZonedDate = timeConversions.convertToSystemTime(resultSet.getTimestamp("Start"));
-                ZonedDateTime endZonedDate = timeConversions.convertToSystemTime(resultSet.getTimestamp("End"));
+
+                Timestamp startTimestamp = resultSet.getTimestamp("Start");
+                Timestamp endTimestamp = resultSet.getTimestamp("End");
+
+                String startDateTime = convertTime(startTimestamp);
+                String endDateTime = convertTime(endTimestamp);
 
                 Appointment appointment = new Appointment(
                         resultSet.getInt("Appointment_ID"),
@@ -37,8 +36,8 @@ public class AppointmentDao {
                         resultSet.getString("Location"),
                         resultSet.getString("Contact_Name"),
                         resultSet.getString("Type"),
-                        startZonedDate,
-                        endZonedDate,
+                        startDateTime,
+                        endDateTime,
                         resultSet.getInt("Customer_ID"),
                         resultSet.getInt("User_ID")
                 );

@@ -6,9 +6,8 @@
 
 .font {
     -fx-font-family: 'Arial', Arial, sans-serif;
-    -fx-font-size: 15px;
+    -fx-font-size: 14px;
     -fx-font-weight: normal;
-    -fx-text-fill: #FFFFFF;
 }
 
 .button {
@@ -49,4 +48,12 @@
     -fx-border-color: transparent;
     -fx-effect: dropshadow(three-pass-box, rgba(131, 192, 253, 0.5), 3, 0, 0, 0);
     -fx-outline: none;
+}
+
+.table-cell {
+    -fx-alignment: CENTER;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: rgba(53, 128, 222, 0.1);
 }

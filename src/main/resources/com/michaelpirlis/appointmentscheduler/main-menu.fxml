@@ -7,12 +7,13 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" styleClass="scene" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.michaelpirlis.appointmentscheduler.MainMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" styleClass="scene" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.michaelpirlis.appointmentscheduler.MainMenuController">
    <BorderPane prefHeight="600.0" prefWidth="1024.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
       <center>
          <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
@@ -24,22 +25,25 @@
                   <Insets bottom="15.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <TableView fx:id="allAppointmentTable" focusTraversable="false" prefHeight="250.0">
+            <TableView fx:id="allAppointmentTable" focusTraversable="false" prefHeight="250.0" styleClass="font">
                <columns>
-                  <TableColumn fx:id="appointmentIdColumn" maxWidth="1.7976931348623157E308" prefWidth="115.0" text="Appointment ID" />
+                  <TableColumn fx:id="appointmentIdColumn" maxWidth="1.7976931348623157E308" prefWidth="60.0" text="Appt ID" />
                   <TableColumn fx:id="appointmentTitleColumn" maxWidth="1.7976931348623157E308" prefWidth="90.0" text="Title" />
                   <TableColumn fx:id="appointmentDescriptionColumn" maxWidth="1.7976931348623157E308" prefWidth="120.0" text="Description" />
                   <TableColumn fx:id="appointmentLocationColumn" maxWidth="1.7976931348623157E308" prefWidth="120.0" text="Location" />
                   <TableColumn fx:id="appointmentContactColumn" maxWidth="1.7976931348623157E308" prefWidth="120.0" text="Contact" />
-                  <TableColumn fx:id="appointmentTypeColumn" maxWidth="1.7976931348623157E308" prefWidth="120.0" text="Type" />
-                  <TableColumn fx:id="appointmentStartColumn" maxWidth="1.7976931348623157E308" prefWidth="120.0" text="Start" />
-                  <TableColumn fx:id="appointmentEndColumn" maxWidth="1.7976931348623157E308" prefWidth="120.0" text="End" />
+                  <TableColumn fx:id="appointmentTypeColumn" maxWidth="1.7976931348623157E308" prefWidth="130.0" text="Type" />
+                  <TableColumn fx:id="appointmentStartColumn" maxWidth="1.7976931348623157E308" prefWidth="130.0" text="Start" />
+                  <TableColumn fx:id="appointmentEndColumn" maxWidth="1.7976931348623157E308" prefWidth="130.0" text="End" />
                </columns>
                <VBox.margin>
                   <Insets bottom="25.0" />
                </VBox.margin>
+               <effect>
+                  <DropShadow />
+               </effect>
             </TableView>
-            <TableView fx:id="allCustomerTable" focusTraversable="false" prefHeight="250.0">
+            <TableView fx:id="allCustomerTable" focusTraversable="false" prefHeight="250.0" styleClass="font">
                <columns>
                   <TableColumn fx:id="customerIdColumn" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="Customer ID" />
                   <TableColumn fx:id="customerNameColumn" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="Name" />
@@ -49,6 +53,9 @@
                   <TableColumn fx:id="customerPostalColumn" maxWidth="1.7976931348623157E308" prefWidth="100.0" text="Postal Code" />
                   <TableColumn fx:id="customerPhoneColumn" maxWidth="1.7976931348623157E308" prefWidth="125.0" text="Phone" />
                </columns>
+               <effect>
+                  <DropShadow />
+               </effect>
             </TableView>
             <padding>
                <Insets right="10.0" />
