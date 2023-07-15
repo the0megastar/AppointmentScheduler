@@ -45,10 +45,10 @@ public class MainMenuController extends Application implements Initializable {
 
     @FXML private ComboBox<String> appointmentFilter;
     @FXML private Button addAppointmentButton;
-    @FXML private Button modifyAppointmentButton;
+    @FXML private Button updateAppointmentButton;
     @FXML private Button deleteAppointmentButton;
     @FXML private Button addCustomerButton;
-    @FXML private Button modifyCustomerButton;
+    @FXML private Button updateCustomerButton;
     @FXML private Button deleteCustomerButton;
     @FXML private Button reportsButton;
     @FXML private Button exitButton;
@@ -77,19 +77,14 @@ public class MainMenuController extends Application implements Initializable {
     @FXML
     private void changeAppointmentFilter() {
         appointmentFilter.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> {
+
             if (newSelection != null) {
                 allAppointmentTable.getItems().clear();
 
-                switch(newSelection) {
-                    case "All":
-                        allAppointmentTable.getItems().addAll(allAppointments());
-                        break;
-                    case "Weekly":
-                        allAppointmentTable.getItems().addAll(weeklyAppointments());
-                        break;
-                    case "Monthly":
-                        allAppointmentTable.getItems().addAll(monthlyAppointments());
-                        break;
+                switch (newSelection) {
+                    case "All" -> allAppointmentTable.getItems().addAll(allAppointments());
+                    case "Weekly" -> allAppointmentTable.getItems().addAll(weeklyAppointments());
+                    case "Monthly" -> allAppointmentTable.getItems().addAll(monthlyAppointments());
                 }
             }
         });
@@ -109,7 +104,7 @@ public class MainMenuController extends Application implements Initializable {
         appointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<>("apptTitle"));
         appointmentDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("apptDescription"));
         appointmentLocationColumn.setCellValueFactory(new PropertyValueFactory<>("apptLocation"));
-        appointmentContactColumn.setCellValueFactory(new PropertyValueFactory<>("customerContact"));
+        appointmentContactColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
         appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("apptType"));
         appointmentStartColumn.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
         appointmentEndColumn.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));

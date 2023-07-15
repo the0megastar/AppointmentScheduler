@@ -1,4 +1,4 @@
 package com.michaelpirlis.appointmentscheduler.controller;
 
-public class CustomerModifyController {
+public class CustomerUpdateController {
 }

@@ -98,7 +98,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="modifyAppointmentButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="newButton" text="Modify">
+            <Button fx:id="updateAppointmentButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="newButton" text="Update">
                <font>
                   <Font name="Avenir Book" size="14.0" />
                </font>
@@ -127,7 +127,7 @@
                   <Insets bottom="4.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="modifyCustomerButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Modify">
+            <Button fx:id="updateCustomerButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Update">
                <font>
                   <Font name="Avenir Book" size="14.0" />
                </font>

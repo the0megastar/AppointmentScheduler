@@ -79,42 +79,4 @@ public class AppointmentSQL {
             throw new RuntimeException(e);
         }
     }
-
-//                allAppointments.add(createAppointment(resultSet));
-//            }
-//            return allAppointments;
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
-//    public Appointment createAppointment(int apptId) {
-//        String query = "SELECT * FROM appointments WHERE Appointment_ID = " + apptId + ";";
-//        try {
-//            ResultSet resultSet = JDBC.openConnection().createStatement().executeQuery(query);
-//            resultSet.next();
-//            return createAppointment(resultSet);
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
-//        private Appointment createAppointment (ResultSet resultSet) throws SQLException {
-//            int id = resultSet.getInt("Appointment_ID");
-//            String title = resultSet.getString("Title");
-//            String description = resultSet.getString("Description");
-//            String location = resultSet.getString("Location");
-//            int contact = resultSet.getInt("Contact");
-//            String type = resultSet.getString("Type");
-//            String start = resultSet.getString("Start");
-//            String end = resultSet.getString("End");
-//            int customerId = resultSet.getInt("Customer_ID");
-//            int userId = resultSet.getInt("User_ID");
-//            ZonedDateTime startUTC = DateTimeConv.strToDateUTC(start);
-//            ZonedDateTime endUTC = DateTimeConv.strToDateUTC(end);
-//            Appointment appointment = new Appointment(id, title, description, location, contact, type, start, end, customerId, userId);
-//            return appointment;
-//        }
-//
-//    }
 }
