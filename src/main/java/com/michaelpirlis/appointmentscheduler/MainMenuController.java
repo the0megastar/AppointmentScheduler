@@ -1,15 +1,16 @@
 package com.michaelpirlis.appointmentscheduler;
 
-import com.michaelpirlis.appointmentscheduler.helper.JDBC;
 import com.michaelpirlis.appointmentscheduler.model.Appointment;
 import com.michaelpirlis.appointmentscheduler.model.Customer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,6 +33,8 @@ public class MainMenuController extends Application implements Initializable {
     @FXML private TableColumn<Object, Object> appointmentTypeColumn;
     @FXML private TableColumn<Object, Object> appointmentStartColumn;
     @FXML private TableColumn<Object, Object> appointmentEndColumn;
+    @FXML private TableColumn<Object, Object> appointmentCustomerIdColumn;
+    @FXML private TableColumn<Object, Object> appointmentUserId;
     @FXML private TableView<Appointment> allAppointmentTable;
 
     @FXML private TableColumn<Object, Object> customerIdColumn;
@@ -44,25 +47,19 @@ public class MainMenuController extends Application implements Initializable {
     @FXML private TableView<Customer> allCustomerTable;
 
     @FXML private ComboBox<String> appointmentFilter;
-    @FXML private Button addAppointmentButton;
-    @FXML private Button updateAppointmentButton;
     @FXML private Button deleteAppointmentButton;
-    @FXML private Button addCustomerButton;
-    @FXML private Button updateCustomerButton;
     @FXML private Button deleteCustomerButton;
     @FXML private Button reportsButton;
-    @FXML private Button exitButton;
 
 
     public void initialize(URL location, ResourceBundle resources) {
-        JDBC.openConnection();
-
         setupAppointmentFilter();
         changeAppointmentFilter();
 
         appointmentTableSetup(allAppointmentTable, appointmentIdColumn, appointmentTitleColumn,
                 appointmentDescriptionColumn, appointmentLocationColumn, appointmentContactColumn,
-                appointmentTypeColumn, appointmentStartColumn, appointmentEndColumn);
+                appointmentTypeColumn, appointmentStartColumn, appointmentEndColumn, appointmentCustomerIdColumn,
+                appointmentUserId);
 
         customerTableSetup(allCustomerTable, customerIdColumn, customerNameColumn, customerStreetColumn,
                 customerPostalColumn, customerPhoneColumn, customerStateColumn, customerCountryColumn);
@@ -98,7 +95,9 @@ public class MainMenuController extends Application implements Initializable {
                                       TableColumn<Object, Object> appointmentContactColumn,
                                       TableColumn<Object, Object> appointmentTypeColumn,
                                       TableColumn<Object, Object> appointmentStartColumn,
-                                      TableColumn<Object, Object> appointmentEndColumn) {
+                                      TableColumn<Object, Object> appointmentEndColumn,
+                                      TableColumn<Object, Object> appointmentCustomerIdColumn,
+                                      TableColumn<Object, Object> appointmentUserId) {
         allAppointmentTable.setItems(allAppointments());
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("apptId"));
         appointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<>("apptTitle"));
@@ -108,6 +107,8 @@ public class MainMenuController extends Application implements Initializable {
         appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("apptType"));
         appointmentStartColumn.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
         appointmentEndColumn.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
+        appointmentCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        appointmentUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
     }
 
     static void customerTableSetup(TableView<Customer> allCustomerTable,
@@ -128,12 +129,13 @@ public class MainMenuController extends Application implements Initializable {
         customerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
     }
 
-    /**
-     * Loads the inventory FXML file for the application, sets up the scene, and displays the primary stage.
-     */
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainMenuController.class.getResource("main-menu.fxml"));
+        displayScene("main-menu.fxml", stage);
+    }
+
+    public static void displayScene(String fxmlFile, Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainMenuController.class.getResource(fxmlFile));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 600);
         stage.setScene(scene);
         stage.setResizable(false);
@@ -141,7 +143,37 @@ public class MainMenuController extends Application implements Initializable {
     }
 
     @FXML
-    private void exitButtonClicked() {
+    private void addAppointmentButton(ActionEvent event) throws IOException {
+        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        displayScene("appointment-add.fxml", appStage);
+    }
+
+    @FXML
+    private void updateAppointmentButton(ActionEvent event) throws IOException {
+        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        displayScene("appointment-update.fxml", appStage);
+    }
+
+    @FXML
+    private void addCustomerButton(ActionEvent event) throws IOException {
+        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        displayScene("customer-add.fxml", appStage);
+    }
+
+    @FXML
+    private void updateCustomerButton(ActionEvent event) throws IOException {
+        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        displayScene("customer-update.fxml", appStage);
+    }
+
+    @FXML
+    private void backButton(ActionEvent event) throws IOException {
+        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        displayScene("main-menu.fxml", appStage);
+    }
+
+    @FXML
+    private void exitButton() {
         Platform.exit();
     }
 

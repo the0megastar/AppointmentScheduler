@@ -35,6 +35,8 @@
                   <TableColumn fx:id="appointmentTypeColumn" maxWidth="1.7976931348623157E308" prefWidth="130.0" text="Type" />
                   <TableColumn fx:id="appointmentStartColumn" maxWidth="1.7976931348623157E308" prefWidth="128.0" text="Start" />
                   <TableColumn fx:id="appointmentEndColumn" maxWidth="1.7976931348623157E308" prefWidth="128.0" text="End" />
+                  <TableColumn fx:id="appointmentCustomerIdColumn" maxWidth="1.7976931348623157E308" prefWidth="128.0" text="Customer ID" />
+                  <TableColumn fx:id="appointmentUserId" maxWidth="1.7976931348623157E308" prefWidth="128.0" text="User ID" />
                </columns>
                <VBox.margin>
                   <Insets bottom="25.0" />
@@ -90,7 +92,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </ComboBox>
-            <Button fx:id="addAppointmentButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="newButton" text="Add">
+            <Button fx:id="addAppointmentButton" mnemonicParsing="false" onAction="#addAppointmentButton" prefHeight="25.0" prefWidth="200.0" styleClass="newButton" text="Add">
                <font>
                   <Font name="Avenir Book" size="14.0" />
                </font>
@@ -98,7 +100,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="updateAppointmentButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="newButton" text="Update">
+            <Button fx:id="updateAppointmentButton" mnemonicParsing="false" onAction="#updateAppointmentButton" prefHeight="25.0" prefWidth="200.0" styleClass="newButton" text="Update">
                <font>
                   <Font name="Avenir Book" size="14.0" />
                </font>
@@ -119,7 +121,7 @@
                   <Font name="Avenir Book" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="addCustomerButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Add">
+            <Button fx:id="addCustomerButton" mnemonicParsing="false" onAction="#addCustomerButton" prefHeight="25.0" prefWidth="200.0" text="Add">
                <font>
                   <Font name="Avenir Book" size="14.0" />
                </font>
@@ -127,7 +129,7 @@
                   <Insets bottom="4.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="updateCustomerButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Update">
+            <Button fx:id="updateCustomerButton" mnemonicParsing="false" onAction="#updateCustomerButton" prefHeight="25.0" prefWidth="200.0" text="Update">
                <font>
                   <Font name="Avenir Book" size="14.0" />
                </font>
@@ -151,7 +153,7 @@
                   <Insets bottom="4.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exitButtonClicked" prefHeight="25.0" prefWidth="200.0" text="Exit">
+            <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exitButton" prefHeight="25.0" prefWidth="200.0" text="Exit">
                <font>
                   <Font name="Avenir Book" size="14.0" />
                </font>

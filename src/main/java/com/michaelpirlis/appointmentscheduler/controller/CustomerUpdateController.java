@@ -1,4 +1,21 @@
 package com.michaelpirlis.appointmentscheduler.controller;
 
-public class CustomerUpdateController {
+import com.michaelpirlis.appointmentscheduler.MainMenuController;
+import javafx.fxml.Initializable;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class CustomerUpdateController extends MainMenuController implements Initializable {
+
+    @Override
+    public void start(Stage stage) throws IOException {
+        displayScene("customer-update.fxml", stage);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
 }
