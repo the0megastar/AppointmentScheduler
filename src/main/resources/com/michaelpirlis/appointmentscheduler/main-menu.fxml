@@ -108,7 +108,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="deleteAppointmentButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="newButton" text="Delete">
+            <Button fx:id="deleteAppointmentButton" mnemonicParsing="false" onAction="#deleteAppointmentButton" prefHeight="25.0" prefWidth="200.0" styleClass="newButton" text="Delete">
                <font>
                   <Font name="Avenir Book" size="14.0" />
                </font>
@@ -137,7 +137,7 @@
                   <Insets bottom="4.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="deleteCustomerButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Delete">
+            <Button fx:id="deleteCustomerButton" mnemonicParsing="false" onAction="#deleteCustomerButton" prefHeight="25.0" prefWidth="200.0" text="Delete">
                <font>
                   <Font name="Avenir Book" size="14.0" />
                </font>

@@ -79,4 +79,31 @@ public class AppointmentSQL {
             throw new RuntimeException(e);
         }
     }
+
+    public static void deleteCustomerAppointments(int customerId) {
+        String query = "DELETE FROM appointments WHERE Customer_ID = ?;";
+
+        try {
+            PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
+            preparedStatement.setInt(1, customerId);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteAppointments(int appointmentId) {
+        String query = "DELETE FROM appointments WHERE Appointment_ID = ?;";
+
+        try {
+            PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
+            preparedStatement.setInt(1, appointmentId);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

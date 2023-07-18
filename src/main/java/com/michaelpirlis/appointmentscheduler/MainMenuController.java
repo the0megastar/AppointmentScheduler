@@ -1,5 +1,7 @@
 package com.michaelpirlis.appointmentscheduler;
 
+import com.michaelpirlis.appointmentscheduler.dao.AppointmentSQL;
+import com.michaelpirlis.appointmentscheduler.dao.CustomerSQL;
 import com.michaelpirlis.appointmentscheduler.model.Appointment;
 import com.michaelpirlis.appointmentscheduler.model.Customer;
 import javafx.application.Application;
@@ -18,6 +20,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static com.michaelpirlis.appointmentscheduler.dao.AppointmentSQL.*;
@@ -25,32 +28,104 @@ import static com.michaelpirlis.appointmentscheduler.dao.CustomerSQL.allCustomer
 
 public class MainMenuController extends Application implements Initializable {
 
-    @FXML private TableColumn<Object, Object> appointmentIdColumn;
-    @FXML private TableColumn<Object, Object> appointmentTitleColumn;
-    @FXML private TableColumn<Object, Object> appointmentDescriptionColumn;
-    @FXML private TableColumn<Object, Object> appointmentLocationColumn;
-    @FXML private TableColumn<Object, Object> appointmentContactColumn;
-    @FXML private TableColumn<Object, Object> appointmentTypeColumn;
-    @FXML private TableColumn<Object, Object> appointmentStartColumn;
-    @FXML private TableColumn<Object, Object> appointmentEndColumn;
-    @FXML private TableColumn<Object, Object> appointmentCustomerIdColumn;
-    @FXML private TableColumn<Object, Object> appointmentUserId;
-    @FXML private TableView<Appointment> allAppointmentTable;
+    @FXML
+    private TableColumn<Object, Object> appointmentIdColumn;
+    @FXML
+    private TableColumn<Object, Object> appointmentTitleColumn;
+    @FXML
+    private TableColumn<Object, Object> appointmentDescriptionColumn;
+    @FXML
+    private TableColumn<Object, Object> appointmentLocationColumn;
+    @FXML
+    private TableColumn<Object, Object> appointmentContactColumn;
+    @FXML
+    private TableColumn<Object, Object> appointmentTypeColumn;
+    @FXML
+    private TableColumn<Object, Object> appointmentStartColumn;
+    @FXML
+    private TableColumn<Object, Object> appointmentEndColumn;
+    @FXML
+    private TableColumn<Object, Object> appointmentCustomerIdColumn;
+    @FXML
+    private TableColumn<Object, Object> appointmentUserId;
+    @FXML
+    private TableView<Appointment> allAppointmentTable;
 
-    @FXML private TableColumn<Object, Object> customerIdColumn;
-    @FXML private TableColumn<Object, Object> customerNameColumn;
-    @FXML private TableColumn<Object, Object> customerStreetColumn;
-    @FXML private TableColumn<Object, Object> customerStateColumn;
-    @FXML private TableColumn<Object, Object> customerCountryColumn;
-    @FXML private TableColumn<Object, Object> customerPostalColumn;
-    @FXML private TableColumn<Object, Object> customerPhoneColumn;
-    @FXML private TableView<Customer> allCustomerTable;
+    @FXML
+    private TableColumn<Object, Object> customerIdColumn;
+    @FXML
+    private TableColumn<Object, Object> customerNameColumn;
+    @FXML
+    private TableColumn<Object, Object> customerStreetColumn;
+    @FXML
+    private TableColumn<Object, Object> customerStateColumn;
+    @FXML
+    private TableColumn<Object, Object> customerCountryColumn;
+    @FXML
+    private TableColumn<Object, Object> customerPostalColumn;
+    @FXML
+    private TableColumn<Object, Object> customerPhoneColumn;
+    @FXML
+    private TableView<Customer> allCustomerTable;
 
-    @FXML private ComboBox<String> appointmentFilter;
-    @FXML private Button deleteAppointmentButton;
-    @FXML private Button deleteCustomerButton;
-    @FXML private Button reportsButton;
+    @FXML
+    private ComboBox<String> appointmentFilter;
+    @FXML
+    private Button deleteAppointmentButton;
+    @FXML
+    private Button deleteCustomerButton;
+    @FXML
+    private Button reportsButton;
 
+    static void appointmentTableSetup(TableView<Appointment> allAppointmentTable,
+                                      TableColumn<Object, Object> appointmentIdColumn,
+                                      TableColumn<Object, Object> appointmentTitleColumn,
+                                      TableColumn<Object, Object> appointmentDescriptionColumn,
+                                      TableColumn<Object, Object> appointmentLocationColumn,
+                                      TableColumn<Object, Object> appointmentContactColumn,
+                                      TableColumn<Object, Object> appointmentTypeColumn,
+                                      TableColumn<Object, Object> appointmentStartColumn,
+                                      TableColumn<Object, Object> appointmentEndColumn,
+                                      TableColumn<Object, Object> appointmentCustomerIdColumn,
+                                      TableColumn<Object, Object> appointmentUserId) {
+        allAppointmentTable.setItems(allAppointments());
+        appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("apptId"));
+        appointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<>("apptTitle"));
+        appointmentDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("apptDescription"));
+        appointmentLocationColumn.setCellValueFactory(new PropertyValueFactory<>("apptLocation"));
+        appointmentContactColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+        appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("apptType"));
+        appointmentStartColumn.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
+        appointmentEndColumn.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
+        appointmentCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        appointmentUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+    }
+
+    static void customerTableSetup(TableView<Customer> allCustomerTable,
+                                   TableColumn<Object, Object> customerIdColumn,
+                                   TableColumn<Object, Object> customerNameColumn,
+                                   TableColumn<Object, Object> customerStreetColumn,
+                                   TableColumn<Object, Object> customerPostalColumn,
+                                   TableColumn<Object, Object> customerPhoneColumn,
+                                   TableColumn<Object, Object> customerStateColumn,
+                                   TableColumn<Object, Object> customerCountryColumn) {
+        allCustomerTable.setItems(allCustomers());
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        customerStreetColumn.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
+        customerPostalColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+        customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        customerStateColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
+        customerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
+    }
+
+    public static void displayScene(String fxmlFile, Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainMenuController.class.getResource(fxmlFile));
+        Scene scene = new Scene(fxmlLoader.load(), 1024, 600);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
 
     public void initialize(URL location, ResourceBundle resources) {
         setupAppointmentFilter();
@@ -87,59 +162,71 @@ public class MainMenuController extends Application implements Initializable {
         });
     }
 
-    static void appointmentTableSetup(TableView<Appointment> allAppointmentTable,
-                                      TableColumn<Object, Object> appointmentIdColumn,
-                                      TableColumn<Object, Object> appointmentTitleColumn,
-                                      TableColumn<Object, Object> appointmentDescriptionColumn,
-                                      TableColumn<Object, Object> appointmentLocationColumn,
-                                      TableColumn<Object, Object> appointmentContactColumn,
-                                      TableColumn<Object, Object> appointmentTypeColumn,
-                                      TableColumn<Object, Object> appointmentStartColumn,
-                                      TableColumn<Object, Object> appointmentEndColumn,
-                                      TableColumn<Object, Object> appointmentCustomerIdColumn,
-                                      TableColumn<Object, Object> appointmentUserId) {
-        allAppointmentTable.setItems(allAppointments());
-        appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("apptId"));
-        appointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<>("apptTitle"));
-        appointmentDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("apptDescription"));
-        appointmentLocationColumn.setCellValueFactory(new PropertyValueFactory<>("apptLocation"));
-        appointmentContactColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
-        appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("apptType"));
-        appointmentStartColumn.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
-        appointmentEndColumn.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
-        appointmentCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-        appointmentUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
-    }
-
-    static void customerTableSetup(TableView<Customer> allCustomerTable,
-                                      TableColumn<Object, Object> customerIdColumn,
-                                      TableColumn<Object, Object> customerNameColumn,
-                                      TableColumn<Object, Object> customerStreetColumn,
-                                      TableColumn<Object, Object> customerPostalColumn,
-                                      TableColumn<Object, Object> customerPhoneColumn,
-                                      TableColumn<Object, Object> customerStateColumn,
-                                      TableColumn<Object, Object> customerCountryColumn) {
-        allCustomerTable.setItems(allCustomers());
-        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-        customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-        customerStreetColumn.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
-        customerPostalColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
-        customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-        customerStateColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
-        customerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
-    }
-
     @Override
     public void start(Stage stage) throws IOException {
         displayScene("main-menu.fxml", stage);
     }
 
-    public static void displayScene(String fxmlFile, Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainMenuController.class.getResource(fxmlFile));
-        Scene scene = new Scene(fxmlLoader.load(), 1024, 600);
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
+    private void noSelection() {
+        Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+        noSelection.setTitle("No Selection");
+        noSelection.setHeaderText(null);
+        noSelection.setContentText("Please select an item from the table for deletion.");
+        noSelection.showAndWait();
+    }
+
+    @FXML
+    private void deleteAppointmentButton() {
+        Appointment selectedAppointment = allAppointmentTable.getSelectionModel().getSelectedItem();
+
+        if (selectedAppointment == null) {
+            noSelection();
+
+        } else {
+            int appointmentId = selectedAppointment.getApptId();
+
+            Alert confirmDeletion = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmDeletion.setTitle("Confirm Appointment Deletion");
+            confirmDeletion.setHeaderText(null);
+            confirmDeletion.setContentText("Would you like to delete appointment "
+                    + (selectedAppointment.getApptId()) + " " + (selectedAppointment.getApptType()) + " ?"
+                    + "\nThis action is final and cannot be undone.");
+
+            Optional<ButtonType> result = confirmDeletion.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                AppointmentSQL.deleteAppointments(appointmentId);
+            }
+
+            allAppointmentTable.setItems(allAppointments());
+        }
+    }
+
+    @FXML
+    private void deleteCustomerButton() {
+        Customer selectedCustomer = allCustomerTable.getSelectionModel().getSelectedItem();
+
+        if (selectedCustomer == null) {
+            noSelection();
+
+        } else {
+            int customerId = selectedCustomer.getCustomerId();
+
+            Alert confirmDeletion = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmDeletion.setTitle("Confirm Customer Deletion");
+            confirmDeletion.setHeaderText(null);
+            confirmDeletion.setContentText("Would you like to delete the customer "
+                    + (selectedCustomer.getCustomerName()) + " ?"
+                    + "\nAll associated appointments will be deleted."
+                    + "\nThis action is final and cannot be undone.");
+
+            Optional<ButtonType> result = confirmDeletion.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                AppointmentSQL.deleteCustomerAppointments(customerId);
+                CustomerSQL.deleteCustomer(customerId);
+            }
+
+            allCustomerTable.setItems(allCustomers());
+        }
     }
 
     @FXML

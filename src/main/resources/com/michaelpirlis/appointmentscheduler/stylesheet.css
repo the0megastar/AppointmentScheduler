@@ -4,6 +4,10 @@
     -fx-text-fill: #FFFFFF;
 }
 
+.text-area {
+    -fx-font-family: 'Arial', Arial, sans-serif;
+}
+
 .font {
     -fx-font-family: 'Arial', Arial, sans-serif;
     -fx-font-size: 14px;
