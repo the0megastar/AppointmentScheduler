@@ -1,15 +1,18 @@
 package com.michaelpirlis.appointmentscheduler.controller;
 
-import com.michaelpirlis.appointmentscheduler.MainMenuController;
 import com.michaelpirlis.appointmentscheduler.dao.CountrySQL;
 import com.michaelpirlis.appointmentscheduler.dao.CustomerSQL;
 import com.michaelpirlis.appointmentscheduler.dao.DivisionSQL;
 import com.michaelpirlis.appointmentscheduler.model.Country;
 import com.michaelpirlis.appointmentscheduler.model.Customer;
 import com.michaelpirlis.appointmentscheduler.model.Division;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
@@ -18,7 +21,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class CustomerAddController extends MainMenuController implements Initializable {
+import static com.michaelpirlis.appointmentscheduler.MainMenuController.displayScene;
+
+public class CustomerAddController extends Application implements Initializable {
 
     @FXML
     private TextField customerIDTextField;
@@ -38,7 +43,7 @@ public class CustomerAddController extends MainMenuController implements Initial
     @FXML
     private Button cancelButton;
 
-    private boolean errorCheck = false;
+    protected boolean errorCheck = false;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -52,13 +57,13 @@ public class CustomerAddController extends MainMenuController implements Initial
         divisionComboBox.setPromptText("Please Choose a Country");
     }
 
-    private void setupCountryCombo() {
+    protected void setupCountryCombo() {
         ObservableList<Country> countries = CountrySQL.allCountries();
         countryComboBox.setItems(countries);
     }
 
     @FXML
-    private void changeCountryFilter() {
+    protected void changeCountryFilter() {
         countryComboBox.valueProperty().addListener((observable, oldCountry, newCountry) -> {
             if (newCountry != null) {
                 ObservableList<Division> divisions;
@@ -68,6 +73,7 @@ public class CustomerAddController extends MainMenuController implements Initial
                     throw new RuntimeException(e);
                 }
                 divisionComboBox.setItems(divisions);
+                divisionComboBox.getSelectionModel().select(0);
             }
         });
     }
@@ -75,7 +81,8 @@ public class CustomerAddController extends MainMenuController implements Initial
     /**
      * Used to clear all text fields and enable the InHouse radio button and form. Created a default view.
      */
-    private void initializeCustomerForm() {
+    void initializeCustomerForm() {
+        customerIDTextField.clear();
         customerNameTextField.clear();
         addressTextField.clear();
         postalCodeTextField.clear();
@@ -85,7 +92,7 @@ public class CustomerAddController extends MainMenuController implements Initial
         setupCountryCombo();
     }
 
-    private void customerErrorHandling() {
+    void customerErrorHandling() {
         StringBuilder errorMessage = new StringBuilder();
 
         if (customerNameTextField.getText().isEmpty()) {
@@ -96,11 +103,11 @@ public class CustomerAddController extends MainMenuController implements Initial
             errorMessage.append("Address is required.\n");
         }
 
-        if (divisionComboBox.getSelectionModel().isEmpty()) {
+        if (divisionComboBox.getSelectionModel().getSelectedItem() == null) {
             errorMessage.append("State or Province is required.\n");
         }
 
-        if (countryComboBox.getSelectionModel().isEmpty()) {
+        if (countryComboBox.getSelectionModel().getSelectedItem() == null) {
             errorMessage.append("Country is required.\n");
         }
 
@@ -130,8 +137,10 @@ public class CustomerAddController extends MainMenuController implements Initial
         customerErrorHandling();
 
         if (errorCheck) {
+            int customerId = 0;
 
             Customer customer = new Customer(
+                    customerId,
                     customerNameTextField.getText(),
                     addressTextField.getText(),
                     postalCodeTextField.getText(),
@@ -144,4 +153,28 @@ public class CustomerAddController extends MainMenuController implements Initial
             errorCheck = false;
         }
     }
+
+    @FXML
+    private void addAppointmentButton(ActionEvent event) throws IOException {
+        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        displayScene("appointment-add.fxml", appStage);
+    }
+
+    @FXML
+    private void addCustomerButton(ActionEvent event) throws IOException {
+        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        displayScene("customer-add.fxml", appStage);
+    }
+
+    @FXML
+    private void backButton(ActionEvent event) throws IOException {
+        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        displayScene("main-menu.fxml", appStage);
+    }
+
+    @FXML
+    private void exitButton() {
+        Platform.exit();
+    }
+
 }

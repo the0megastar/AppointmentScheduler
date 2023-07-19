@@ -77,6 +77,8 @@ public class MainMenuController extends Application implements Initializable {
     @FXML
     private Button reportsButton;
 
+    public static Customer updateCustomer;
+
     static void appointmentTableSetup(TableView<Appointment> allAppointmentTable,
                                       TableColumn<Object, Object> appointmentIdColumn,
                                       TableColumn<Object, Object> appointmentTitleColumn,
@@ -171,7 +173,7 @@ public class MainMenuController extends Application implements Initializable {
         Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
         noSelection.setTitle("No Selection");
         noSelection.setHeaderText(null);
-        noSelection.setContentText("Please select an item from the table for deletion.");
+        noSelection.setContentText("Please select an item from the table.");
         noSelection.showAndWait();
     }
 
@@ -226,6 +228,7 @@ public class MainMenuController extends Application implements Initializable {
             }
 
             allCustomerTable.setItems(allCustomers());
+            allAppointmentTable.setItems(allAppointments());
         }
     }
 
@@ -249,8 +252,14 @@ public class MainMenuController extends Application implements Initializable {
 
     @FXML
     private void updateCustomerButton(ActionEvent event) throws IOException {
-        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        displayScene("customer-update.fxml", appStage);
+        updateCustomer = allCustomerTable.getSelectionModel().getSelectedItem();
+
+        if (updateCustomer == null) {
+            noSelection();
+        } else {
+            Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            displayScene("customer-update.fxml", appStage);
+        }
     }
 
     @FXML

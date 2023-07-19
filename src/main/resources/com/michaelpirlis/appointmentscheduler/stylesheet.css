@@ -57,7 +57,3 @@
 .table-cell {
     -fx-alignment: CENTER;
 }
-
-.table-row-cell:odd {
-    -fx-background-color: rgba(53, 128, 222, 0.1);
-}

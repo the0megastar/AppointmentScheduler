@@ -24,14 +24,14 @@ public class Customer {
         this.country = country;
     }
 
-    public Customer(String customerName, String customerAddress, String postalCode,
+    public Customer(int customerId, String customerName, String customerAddress, String postalCode,
                     String phoneNumber, int divisionId) {
+        this.customerId = customerId;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         this.postalCode = postalCode;
         this.phoneNumber = phoneNumber;
         this.divisionId = divisionId;
-//        this.countryId = countryId;
     }
 
     public int getCustomerId() {

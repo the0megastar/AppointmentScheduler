@@ -18,22 +18,14 @@ public class Division {
         this.countryId = countryId;
     }
 
-    /**
-     * Get the Division ID
-     *
-     * @return ID
-     */
     public int getDivisionId() {
         return divisionID;
     }
-
-    /**
-     * Get the Division Name
-     *
-     * @return Name
-     */
     public String getDivisionName() {
         return divisionName;
+    }
+    public int getCountryId() {
+        return countryId;
     }
 
     @Override

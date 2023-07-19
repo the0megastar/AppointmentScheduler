@@ -195,15 +195,7 @@
                         <Font name="Avenir Book" size="14.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="5.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button fx:id="updateAppointmentButton" mnemonicParsing="false" onAction="#updateAppointmentButton" prefHeight="25.0" prefWidth="200.0" styleClass="newButton" text="Update">
-                     <font>
-                        <Font name="Avenir Book" size="14.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="5.0" />
+                        <Insets bottom="35.0" />
                      </VBox.margin>
                   </Button>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="scene" text="Customers">
@@ -216,15 +208,7 @@
                         <Font name="Avenir Book" size="14.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="4.0" />
-                     </VBox.margin>
-                  </Button>
-                  <Button fx:id="updateCustomerButton" mnemonicParsing="false" onAction="#updateCustomerButton" prefHeight="25.0" prefWidth="200.0" text="Update">
-                     <font>
-                        <Font name="Avenir Book" size="14.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="4.0" />
+                        <Insets bottom="35.0" />
                      </VBox.margin>
                   </Button>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="scene" text="Reports">

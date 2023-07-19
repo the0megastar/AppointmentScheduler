@@ -20,13 +20,28 @@ public class CountrySQL {
         return getCountries(allCountries, query);
     }
 
-//    public static ObservableList<Country> getCountry(int countryId) {
-//        ObservableList<Country> getCountry = FXCollections.observableArrayList();
-//
-//        String query = "SELECT * FROM countries WHERE Country_ID = ?;";
-//
-//        return getCountries(getCountry, query);
-//    }
+    public static ObservableList<Country> getCountry(int countryId) {
+        ObservableList<Country> getCountry = FXCollections.observableArrayList();
+
+        String query = "SELECT * FROM countries WHERE Country_ID = ?;";
+
+        try {
+            PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
+            preparedStatement.setInt(1, countryId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+
+                Country country = new Country(
+                        resultSet.getInt("Country_ID"),
+                        resultSet.getString("Country")
+                );
+                getCountry.add(country);
+            }
+            return getCountry;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private static ObservableList<Country> getCountries(ObservableList<Country> countries, String query) {
         try {

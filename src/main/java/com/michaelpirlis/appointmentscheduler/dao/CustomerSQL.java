@@ -49,21 +49,39 @@ public class CustomerSQL {
 
     public static void createCustomer(Customer customer) {
 
-        String query = "INSERT INTO customers (Customer_Name,Address,Postal_Code,Phone,Division_ID) values (?,?,?,?,?);";
+        String query = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Division_ID) values (?,?,?,?,?);";
 
         try {
-            PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
-            preparedStatement.setString(1, customer.getCustomerName());
-            preparedStatement.setString(2, customer.getCustomerAddress());
-            preparedStatement.setString(3, customer.getPostalCode());
-            preparedStatement.setString(4, customer.getPhoneNumber());
-            preparedStatement.setInt(5, customer.getDivisionId());
+            PreparedStatement preparedStatement = prepareCustomer(customer, query);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+    private static PreparedStatement prepareCustomer(Customer customer, String query) throws SQLException {
+        PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
+        preparedStatement.setString(1, customer.getCustomerName());
+        preparedStatement.setString(2, customer.getCustomerAddress());
+        preparedStatement.setString(3, customer.getPostalCode());
+        preparedStatement.setString(4, customer.getPhoneNumber());
+        preparedStatement.setInt(5, customer.getDivisionId());
+        return preparedStatement;
+    }
+
+    public static void updateCustomer(Customer customer) {
+        String query = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Division_ID = ? WHERE Customer_ID = ?;";
+
+        try {
+            PreparedStatement preparedStatement = prepareCustomer(customer, query);
+            preparedStatement.setInt(6, customer.getCustomerId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public static void deleteCustomer(int customerId) {
         String query = "DELETE FROM customers WHERE Customer_ID = ?;";
