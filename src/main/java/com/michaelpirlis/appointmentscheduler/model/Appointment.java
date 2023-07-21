@@ -3,46 +3,53 @@ package com.michaelpirlis.appointmentscheduler.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.Timestamp;
+import java.time.ZonedDateTime;
+
 
 public class Appointment {
     private static final ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
-    private final int apptId;
+    private final int apptID;
     private final String apptTitle;
     private final String apptDescription;
     private final String apptLocation;
     private final String apptType;
-    private final String apptStart;
-    private final String apptEnd;
-    private final int customerId;
-    private Customer customer;
-    private final int userId;
-    private User user;
-    private int contactId;
-    private final String contactName;
+    private final ZonedDateTime apptStart;
+    private final ZonedDateTime apptEnd;
+    private final ZonedDateTime createDate;
+    private final String createdBy;
+    private final Timestamp lastUpdate;
+    private final String lastUpdatedBy;
+    private final int customerID;
+    private final int userID;
+    private final int contactID;
 
-    public Appointment(int apptId, String apptTitle, String apptDescription, String apptLocation, String contactName,
-                       String apptType, String apptStart, String apptEnd, int customerId, int userId) {
-        this.apptId = apptId;
+
+    public Appointment(int apptID, String apptTitle, String apptDescription, String apptLocation, String apptType,
+                       ZonedDateTime apptStart, ZonedDateTime apptEnd, ZonedDateTime createDate, String createdBy,
+                       Timestamp lastUpdate, String lastUpdatedBy, int customerID, int userID, int contactID) {
+        this.apptID = apptID;
         this.apptTitle = apptTitle;
         this.apptDescription = apptDescription;
         this.apptLocation = apptLocation;
-        this.contactName = contactName;
         this.apptType = apptType;
         this.apptStart = apptStart;
         this.apptEnd = apptEnd;
-        this.customerId = customerId;
-        this.userId = userId;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.customerID = customerID;
+        this.userID = userID;
+        this.contactID = contactID;
     }
 
-    /**
-     * Collects all Appointments from the Observable List
-     */
     public static ObservableList<Appointment> getAllAppointments() {
         return allAppointments;
     }
 
-    public int getApptId() {
-        return apptId;
+    public int getApptID() {
+        return apptID;
     }
 
     public String getApptTitle() {
@@ -57,32 +64,44 @@ public class Appointment {
         return apptLocation;
     }
 
-    public String getContactName() {
-        return contactName;
-    }
-
     public String getApptType() {
         return apptType;
     }
 
-    public String getApptStart() {
+    public ZonedDateTime getApptStart() {
         return apptStart;
     }
 
-    public String getApptEnd() {
+    public ZonedDateTime getApptEnd() {
         return apptEnd;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public ZonedDateTime getCreateDate() {
+        return createDate;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public int getContactId() {
-        return contactId;
+    public Timestamp getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public String getLastUpdatedBy() {
+        return lastUpdatedBy;
+    }
+
+    public int getCustomerID() {
+        return customerID;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public int getContactID() {
+        return contactID;
     }
 
 }

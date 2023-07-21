@@ -1,6 +1,5 @@
 package com.michaelpirlis.appointmentscheduler.controller;
 
-import com.michaelpirlis.appointmentscheduler.MainMenuController;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 
@@ -8,7 +7,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AppointmentUpdateController extends MainMenuController implements Initializable {
+import static com.michaelpirlis.appointmentscheduler.MainMenuController.displayScene;
+
+public class AppointmentUpdateController extends AppointmentAddController implements Initializable {
 
     @Override
     public void start(Stage stage) throws IOException {

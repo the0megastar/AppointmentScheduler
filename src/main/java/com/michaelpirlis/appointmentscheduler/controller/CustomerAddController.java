@@ -43,7 +43,7 @@ public class CustomerAddController extends Application implements Initializable 
     @FXML
     private Button cancelButton;
 
-    protected boolean errorCheck = false;
+    private boolean errorCheck = false;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -68,7 +68,7 @@ public class CustomerAddController extends Application implements Initializable 
             if (newCountry != null) {
                 ObservableList<Division> divisions;
                 try {
-                    divisions = DivisionSQL.getDivisionByCountry(newCountry.getCountryId());
+                    divisions = DivisionSQL.getDivisionByCountry(newCountry.getCountryID());
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -81,7 +81,7 @@ public class CustomerAddController extends Application implements Initializable 
     /**
      * Used to clear all text fields and enable the InHouse radio button and form. Created a default view.
      */
-    void initializeCustomerForm() {
+    protected void initializeCustomerForm() {
         customerIDTextField.clear();
         customerNameTextField.clear();
         addressTextField.clear();
@@ -92,7 +92,7 @@ public class CustomerAddController extends Application implements Initializable 
         setupCountryCombo();
     }
 
-    void customerErrorHandling() {
+    protected void customerErrorHandling() {
         StringBuilder errorMessage = new StringBuilder();
 
         if (customerNameTextField.getText().isEmpty()) {
@@ -119,16 +119,20 @@ public class CustomerAddController extends Application implements Initializable 
             errorMessage.append("Phone Number is required.\n");
         }
 
+        displayErrors(errorMessage);
+
+        if (errorMessage.length() == 0) {
+            errorCheck = true;
+        }
+    }
+
+    private void displayErrors(StringBuilder errorMessage) {
         if (errorMessage.length() > 0) {
             Alert saveError = new Alert(Alert.AlertType.INFORMATION);
             saveError.setTitle("Unable To Save");
             saveError.setHeaderText(null);
             saveError.setContentText(errorMessage.toString());
             saveError.showAndWait();
-        }
-
-        if (errorMessage.length() == 0) {
-            errorCheck = true;
         }
     }
 
@@ -148,7 +152,8 @@ public class CustomerAddController extends Application implements Initializable 
                     divisionComboBox.getValue().getDivisionId()
             );
 
-            CustomerSQL.createCustomer(customer);
+            CustomerSQL.createCustomer(customer); // switch to next line after updating CustomerSQL
+//            CustomerSQL.createCustomer(customer, currentUser);
             initializeCustomerForm();
             errorCheck = false;
         }

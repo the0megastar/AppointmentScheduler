@@ -47,6 +47,29 @@ public class CustomerSQL {
         return getCustomers(allCustomers, query);
     }
 
+//    public static void createCustomer(Customer customer, String currentUser) {
+//        String query = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Division_ID, Create_Date, Created_By, Last_Updated_By) values (?,?,?,?,?,?,?,?);";
+//        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+//
+//        try {
+//            PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
+//            preparedStatement.setString(1, customer.getCustomerName());
+//            preparedStatement.setString(2, customer.getCustomerAddress());
+//            preparedStatement.setString(3, customer.getPostalCode());
+//            preparedStatement.setString(4, customer.getPhoneNumber());
+//            preparedStatement.setInt(5, customer.getDivisionId());
+//            preparedStatement.setTimestamp(6, currentTimestamp);  // Current date and time for Create_Date
+//            preparedStatement.setString(7, loggedInUser);  // User who created the record
+//            preparedStatement.setTimestamp(8, currentTimestamp);  // Current date and time for Last_Update
+//            preparedStatement.setString(9, loggedInUser);  // User who last updated the record
+//            preparedStatement.executeUpdate();
+//
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
+
     public static void createCustomer(Customer customer) {
 
         String query = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Division_ID) values (?,?,?,?,?);";

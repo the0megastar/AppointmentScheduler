@@ -6,15 +6,15 @@ public class Customer {
     private final String postalCode;
     private final String phoneNumber;
     private final int divisionId;
-    private int customerId;
+    private final int customerID;
     private String division;
     private String country;
-    private int countryId;
+//    private int countryId;
 
 
-    public Customer(int customerId, String customerName, String customerAddress, String postalCode,
+    public Customer(int customerID, String customerName, String customerAddress, String postalCode,
                     String phoneNumber, int divisionId, String division, String country) {
-        this.customerId = customerId;
+        this.customerID = customerID;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         this.postalCode = postalCode;
@@ -24,9 +24,9 @@ public class Customer {
         this.country = country;
     }
 
-    public Customer(int customerId, String customerName, String customerAddress, String postalCode,
+    public Customer(int customerID, String customerName, String customerAddress, String postalCode,
                     String phoneNumber, int divisionId) {
-        this.customerId = customerId;
+        this.customerID = customerID;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         this.postalCode = postalCode;
@@ -35,7 +35,7 @@ public class Customer {
     }
 
     public int getCustomerId() {
-        return customerId;
+        return customerID;
     }
 
     public String getCustomerName() {
@@ -66,7 +66,12 @@ public class Customer {
         return country;
     }
 
-    public int getCountryId() { return countryId; }
+//    public int getCountryId() { return countryId; }
+
+    @Override
+    public String toString() {
+        return customerName;
+    }
 }
 
 

@@ -3,9 +3,11 @@ package com.michaelpirlis.appointmentscheduler;
 import com.michaelpirlis.appointmentscheduler.dao.AppointmentSQL;
 import com.michaelpirlis.appointmentscheduler.dao.CustomerSQL;
 import com.michaelpirlis.appointmentscheduler.model.Appointment;
+import com.michaelpirlis.appointmentscheduler.model.Contact;
 import com.michaelpirlis.appointmentscheduler.model.Customer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,10 +22,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static com.michaelpirlis.appointmentscheduler.dao.AppointmentSQL.*;
+import static com.michaelpirlis.appointmentscheduler.dao.ContactSQL.getContactName;
 import static com.michaelpirlis.appointmentscheduler.dao.CustomerSQL.allCustomers;
 
 public class MainMenuController extends Application implements Initializable {
@@ -37,13 +42,13 @@ public class MainMenuController extends Application implements Initializable {
     @FXML
     private TableColumn<Object, Object> appointmentLocationColumn;
     @FXML
-    private TableColumn<Object, Object> appointmentContactColumn;
+    private TableColumn<Appointment, String> appointmentContactColumn;
     @FXML
     private TableColumn<Object, Object> appointmentTypeColumn;
     @FXML
-    private TableColumn<Object, Object> appointmentStartColumn;
+    private TableColumn<Appointment, String> appointmentStartColumn;
     @FXML
-    private TableColumn<Object, Object> appointmentEndColumn;
+    private TableColumn<Appointment, String> appointmentEndColumn;
     @FXML
     private TableColumn<Object, Object> appointmentCustomerIdColumn;
     @FXML
@@ -84,23 +89,25 @@ public class MainMenuController extends Application implements Initializable {
                                       TableColumn<Object, Object> appointmentTitleColumn,
                                       TableColumn<Object, Object> appointmentDescriptionColumn,
                                       TableColumn<Object, Object> appointmentLocationColumn,
-                                      TableColumn<Object, Object> appointmentContactColumn,
+                                      TableColumn<Appointment, String> appointmentContactColumn,
                                       TableColumn<Object, Object> appointmentTypeColumn,
-                                      TableColumn<Object, Object> appointmentStartColumn,
-                                      TableColumn<Object, Object> appointmentEndColumn,
+                                      TableColumn<Appointment, String> appointmentStartColumn,
+                                      TableColumn<Appointment, String> appointmentEndColumn,
                                       TableColumn<Object, Object> appointmentCustomerIdColumn,
                                       TableColumn<Object, Object> appointmentUserId) {
         allAppointmentTable.setItems(allAppointments());
-        appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("apptId"));
+        appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("apptID"));
         appointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<>("apptTitle"));
         appointmentDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("apptDescription"));
         appointmentLocationColumn.setCellValueFactory(new PropertyValueFactory<>("apptLocation"));
-        appointmentContactColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+        appointmentContactColumn.setCellValueFactory(p -> new SimpleStringProperty(getContactName(p.getValue().getContactID())));
         appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("apptType"));
-        appointmentStartColumn.setCellValueFactory(new PropertyValueFactory<>("apptStart"));
-        appointmentEndColumn.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
-        appointmentCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-        appointmentUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        appointmentCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        appointmentUserId.setCellValueFactory(new PropertyValueFactory<>("userID"));
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm");
+        appointmentStartColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getApptStart().format(formatter)));
+        appointmentEndColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getApptEnd().format(formatter)));
     }
 
     static void customerTableSetup(TableView<Customer> allCustomerTable,
@@ -185,13 +192,13 @@ public class MainMenuController extends Application implements Initializable {
             noSelection();
 
         } else {
-            int appointmentId = selectedAppointment.getApptId();
+            int appointmentId = selectedAppointment.getApptID();
 
             Alert confirmDeletion = new Alert(Alert.AlertType.CONFIRMATION);
             confirmDeletion.setTitle("Confirm Appointment Deletion");
             confirmDeletion.setHeaderText(null);
             confirmDeletion.setContentText("Would you like to delete appointment "
-                    + (selectedAppointment.getApptId()) + " " + (selectedAppointment.getApptType()) + " ?"
+                    + (selectedAppointment.getApptID()) + " " + (selectedAppointment.getApptType()) + " ?"
                     + "\nThis action is final and cannot be undone.");
 
             Optional<ButtonType> result = confirmDeletion.showAndWait();

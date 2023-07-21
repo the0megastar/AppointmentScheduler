@@ -42,6 +42,8 @@ public class CustomerUpdateController extends CustomerAddController implements I
     @FXML
     private Button cancelButton;
 
+    private boolean errorCheck = false;
+
 
     @Override
     public void start(Stage stage) throws IOException {

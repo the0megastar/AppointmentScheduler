@@ -5,23 +5,23 @@ import javafx.collections.ObservableList;
 
 public class Country {
 
-    private final int countryId;
+    private final int countryID;
     private final String countryName;
     private final ObservableList<Division> division = FXCollections.observableArrayList();
 
     /**
      * Constructor with all required attributes.
      *
-     * @param countryId   ID
+     * @param countryID   ID
      * @param countryName Name
      */
-    public Country(int countryId, String countryName) {
-        this.countryId = countryId;
+    public Country(int countryID, String countryName) {
+        this.countryID = countryID;
         this.countryName = countryName;
     }
 
-    public int getCountryId() {
-        return countryId;
+    public int getCountryID() {
+        return countryID;
     }
 
     public String getCountryName() {
