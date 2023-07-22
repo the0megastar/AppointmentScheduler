@@ -5,13 +5,7 @@ public class Division {
     private final String divisionName;
     private final int countryID;
 
-    /**
-     * Constructor with all required attributes.
-     *
-     * @param divisionID   ID
-     * @param divisionName Name
-     * @param countryID    Country ID
-     */
+
     public Division(int divisionID, String divisionName, int countryID) {
         this.divisionID = divisionID;
         this.divisionName = divisionName;
@@ -26,7 +20,7 @@ public class Division {
         return divisionName;
     }
 
-    public int getCountryId() {
+    public int getCountryID() {
         return countryID;
     }
 

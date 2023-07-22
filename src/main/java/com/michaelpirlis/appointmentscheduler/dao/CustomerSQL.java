@@ -118,4 +118,33 @@ public class CustomerSQL {
             throw new RuntimeException(e);
         }
     }
+
+//    public static Customer getCustomer(int customerId) {
+//        String query = "SELECT * FROM customers WHERE Customer_ID = ?";
+//
+//        try {
+//            PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
+//            preparedStatement.setInt(1, customerId);
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//
+//            if (resultSet.next()) {
+//                return new Customer(
+//                        resultSet.getInt("Customer_ID"),
+//                        resultSet.getString("Customer_Name"),
+//                        resultSet.getString("Address"),
+//                        resultSet.getString("Postal_Code"),
+//                        resultSet.getString("Phone"),
+//                        resultSet.getInt("Division_ID"),
+//                        resultSet.getString("Division"),
+//                        resultSet.getString("Country")
+//                );
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        return null;
+//    }
+
+
 }

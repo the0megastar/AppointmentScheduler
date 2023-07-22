@@ -24,7 +24,7 @@
                   <Insets right="10.0" />
                </padding>
                <children>
-                  <Label alignment="BOTTOM_RIGHT" prefHeight="30.0" prefWidth="890.0" styleClass="scene" text="Update Appointment                                                                                                    Appointment Scheduler" textAlignment="RIGHT">
+                  <Label alignment="BOTTOM_RIGHT" prefHeight="30.0" prefWidth="890.0" styleClass="scene" text="Update Appointment                                                                                                         Appointment Scheduler" textAlignment="RIGHT">
                      <font>
                         <Font name="Avenir Book" size="18.0" />
                      </font>
@@ -70,7 +70,7 @@
                               <Insets left="25.0" right="25.0" />
                            </GridPane.margin>
                         </TextField>
-                        <TextField alignment="CENTER" disable="true" editable="false" prefWidth="400.0" promptText="Appointment ID - Auto Generated" GridPane.rowIndex="1">
+                        <TextField fx:id="apptIDText" alignment="CENTER" disable="true" editable="false" prefWidth="400.0" promptText="Appointment ID - Auto Generated" GridPane.rowIndex="1">
                            <GridPane.margin>
                               <Insets left="25.0" right="25.0" />
                            </GridPane.margin>
@@ -182,7 +182,7 @@
                               <Insets left="25.0" />
                            </GridPane.margin>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="195.0" styleClass="newButton" text="Save" GridPane.halignment="RIGHT" GridPane.rowIndex="19">
+                        <Button fx:id="updateAppointmentButton" mnemonicParsing="false" onAction="#updateAppointmentButton" prefHeight="25.0" prefWidth="195.0" styleClass="newButton" text="Save" GridPane.halignment="RIGHT" GridPane.rowIndex="19">
                            <font>
                               <Font size="14.0" />
                            </font>

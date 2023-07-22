@@ -9,12 +9,7 @@ public class Country {
     private final String countryName;
     private final ObservableList<Division> division = FXCollections.observableArrayList();
 
-    /**
-     * Constructor with all required attributes.
-     *
-     * @param countryID   ID
-     * @param countryName Name
-     */
+
     public Country(int countryID, String countryName) {
         this.countryID = countryID;
         this.countryName = countryName;
@@ -26,15 +21,6 @@ public class Country {
 
     public String getCountryName() {
         return countryName;
-    }
-
-    /**
-     * Get the Country's first level divisions.
-     *
-     * @return division
-     */
-    public ObservableList<Division> division() {
-        return division;
     }
 
     /**

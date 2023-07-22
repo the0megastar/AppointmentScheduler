@@ -42,7 +42,7 @@ public class CustomerUpdateController extends CustomerAddController implements I
     @FXML
     private Button cancelButton;
 
-    private boolean errorCheck = false;
+//    protected boolean errorCheck = false;
 
 
     @Override
@@ -84,7 +84,7 @@ public class CustomerUpdateController extends CustomerAddController implements I
         Division selectedDivision = DivisionSQL.getDivision(updateCustomer.getDivisionId()).get(0);
 
         // Get the countryId for the selected division
-        int countryId = selectedDivision.getCountryId();
+        int countryId = selectedDivision.getCountryID();
 
         // Get all divisions for the country and set them in the divisionComboBox
         ObservableList<Division> allDivisions = DivisionSQL.getDivisionByCountry(countryId);
@@ -122,6 +122,7 @@ public class CustomerUpdateController extends CustomerAddController implements I
                     PhoneNumberTextField.getText(),
                     divisionComboBox.getValue().getDivisionId()
             );
+            customer.printCustomer();
             CustomerSQL.updateCustomer(customer);
             initializeCustomerForm();
             errorCheck = false;

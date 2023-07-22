@@ -43,7 +43,7 @@ public class CustomerAddController extends Application implements Initializable 
     @FXML
     private Button cancelButton;
 
-    private boolean errorCheck = false;
+    protected boolean errorCheck = false;
 
     @Override
     public void start(Stage stage) throws IOException {

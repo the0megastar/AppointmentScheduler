@@ -9,7 +9,6 @@ public class Customer {
     private final int customerID;
     private String division;
     private String country;
-//    private int countryId;
 
 
     public Customer(int customerID, String customerName, String customerAddress, String postalCode,
@@ -32,6 +31,15 @@ public class Customer {
         this.postalCode = postalCode;
         this.phoneNumber = phoneNumber;
         this.divisionId = divisionId;
+    }
+
+    public void printCustomer() {
+        System.out.println("Customer ID: " + this.customerID);
+        System.out.println("Customer Name: " + this.customerName);
+        System.out.println("Customer Address: " + this.customerAddress);
+        System.out.println("Postal Code: " + this.postalCode);
+        System.out.println("Phone Number: " + this.phoneNumber);
+        System.out.println("Division ID: " + this.divisionId);
     }
 
     public int getCustomerId() {
@@ -65,8 +73,6 @@ public class Customer {
     public String getCountry() {
         return country;
     }
-
-//    public int getCountryId() { return countryId; }
 
     @Override
     public String toString() {

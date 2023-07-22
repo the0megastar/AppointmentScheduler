@@ -44,6 +44,24 @@ public class Appointment {
         this.contactID = contactID;
     }
 
+    public void printAppointment() {
+        System.out.println("Appointment ID: " + this.apptID);
+        System.out.println("Title: " + this.apptTitle);
+        System.out.println("Description: " + this.apptDescription);
+        System.out.println("Location: " + this.apptLocation);
+        System.out.println("Type: " + this.apptType);
+        System.out.println("Start: " + this.apptStart);
+        System.out.println("End: " + this.apptEnd);
+        System.out.println("Created Date: " + this.createDate);
+        System.out.println("Created By: " + this.createdBy);
+        System.out.println("Last Update: " + this.lastUpdate);
+        System.out.println("Last Updated By: " + this.lastUpdatedBy);
+        System.out.println("Customer ID: " + this.customerID);
+        System.out.println("User ID: " + this.userID);
+        System.out.println("Contact ID: " + this.contactID);
+    }
+
+
     public static ObservableList<Appointment> getAllAppointments() {
         return allAppointments;
     }

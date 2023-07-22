@@ -5,9 +5,10 @@ module com.michaelpirlis.appointmentscheduler {
     requires mysql.connector.j;
 
 
-    opens com.michaelpirlis.appointmentscheduler to javafx.fxml;
     exports com.michaelpirlis.appointmentscheduler;
+    exports com.michaelpirlis.appointmentscheduler.model;
     exports com.michaelpirlis.appointmentscheduler.controller;
+    opens com.michaelpirlis.appointmentscheduler to javafx.fxml;
     opens com.michaelpirlis.appointmentscheduler.controller to javafx.fxml;
     opens com.michaelpirlis.appointmentscheduler.model to javafx.base;
 }

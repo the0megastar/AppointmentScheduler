@@ -3,7 +3,6 @@ package com.michaelpirlis.appointmentscheduler;
 import com.michaelpirlis.appointmentscheduler.dao.AppointmentSQL;
 import com.michaelpirlis.appointmentscheduler.dao.CustomerSQL;
 import com.michaelpirlis.appointmentscheduler.model.Appointment;
-import com.michaelpirlis.appointmentscheduler.model.Contact;
 import com.michaelpirlis.appointmentscheduler.model.Customer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -22,7 +21,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -83,6 +81,7 @@ public class MainMenuController extends Application implements Initializable {
     private Button reportsButton;
 
     public static Customer updateCustomer;
+    public static Appointment updateAppointment;
 
     static void appointmentTableSetup(TableView<Appointment> allAppointmentTable,
                                       TableColumn<Object, Object> appointmentIdColumn,
@@ -245,10 +244,22 @@ public class MainMenuController extends Application implements Initializable {
         displayScene("appointment-add.fxml", appStage);
     }
 
+//    @FXML
+//    private void updateAppointmentButton(ActionEvent event) throws IOException {
+//        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        displayScene("appointment-update.fxml", appStage);
+//    }
+
     @FXML
     private void updateAppointmentButton(ActionEvent event) throws IOException {
-        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        displayScene("appointment-update.fxml", appStage);
+        updateAppointment = allAppointmentTable.getSelectionModel().getSelectedItem();
+
+        if (updateAppointment == null) {
+            noSelection();
+        } else {
+            Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            displayScene("appointment-update.fxml", appStage);
+        }
     }
 
     @FXML
@@ -267,12 +278,6 @@ public class MainMenuController extends Application implements Initializable {
             Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             displayScene("customer-update.fxml", appStage);
         }
-    }
-
-    @FXML
-    private void backButton(ActionEvent event) throws IOException {
-        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        displayScene("main-menu.fxml", appStage);
     }
 
     @FXML
