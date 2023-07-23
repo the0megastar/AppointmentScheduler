@@ -1,4 +1,4 @@
-package com.michaelpirlis.appointmentscheduler;
+package com.michaelpirlis.appointmentscheduler.controller;
 
 import com.michaelpirlis.appointmentscheduler.dao.AppointmentSQL;
 import com.michaelpirlis.appointmentscheduler.dao.CustomerSQL;
@@ -128,7 +128,7 @@ public class MainMenuController extends Application implements Initializable {
     }
 
     public static void displayScene(String fxmlFile, Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainMenuController.class.getResource(fxmlFile));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainMenuController.class.getResource("/com/michaelpirlis/appointmentscheduler/" + fxmlFile));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 600);
         stage.setScene(scene);
         stage.setResizable(false);

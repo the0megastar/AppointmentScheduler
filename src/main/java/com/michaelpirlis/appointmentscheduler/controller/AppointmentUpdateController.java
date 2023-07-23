@@ -19,8 +19,8 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ResourceBundle;
 
-import static com.michaelpirlis.appointmentscheduler.MainMenuController.displayScene;
-import static com.michaelpirlis.appointmentscheduler.MainMenuController.updateAppointment;
+import static com.michaelpirlis.appointmentscheduler.controller.MainMenuController.displayScene;
+import static com.michaelpirlis.appointmentscheduler.controller.MainMenuController.updateAppointment;
 
 public class AppointmentUpdateController extends AppointmentAddController implements Initializable {
 

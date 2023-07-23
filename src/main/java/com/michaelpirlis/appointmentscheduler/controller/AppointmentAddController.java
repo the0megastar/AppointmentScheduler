@@ -25,8 +25,7 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
-import static com.michaelpirlis.appointmentscheduler.MainMenuController.displayScene;
-import static com.michaelpirlis.appointmentscheduler.dao.AppointmentSQL.appointmentOverlap;
+import static com.michaelpirlis.appointmentscheduler.controller.MainMenuController.displayScene;
 import static com.michaelpirlis.appointmentscheduler.helper.TimeConversions.businessHours;
 
 public class AppointmentAddController extends Application implements Initializable {

@@ -10,5 +10,5 @@ module com.michaelpirlis.appointmentscheduler {
     exports com.michaelpirlis.appointmentscheduler.controller;
     opens com.michaelpirlis.appointmentscheduler to javafx.fxml;
     opens com.michaelpirlis.appointmentscheduler.controller to javafx.fxml;
-    opens com.michaelpirlis.appointmentscheduler.model to javafx.base;
+    opens com.michaelpirlis.appointmentscheduler.model to javafx.base, javafx.fxml;
 }

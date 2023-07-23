@@ -21,7 +21,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import static com.michaelpirlis.appointmentscheduler.MainMenuController.displayScene;
+import static com.michaelpirlis.appointmentscheduler.controller.MainMenuController.displayScene;
 
 public class CustomerAddController extends Application implements Initializable {
 

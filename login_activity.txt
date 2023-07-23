@@ -1,0 +1,2 @@
+Jul 22, 2023 11:19:27 PM com.michaelpirlis.appointmentscheduler.controller.LoginController loginButton
+INFO: Successful login by user 'test' at 2023-07-22 23:19:27 [America/New_York]
