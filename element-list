@@ -1,0 +1,6 @@
+module:com.michaelpirlis.appointmentscheduler
+com.michaelpirlis.appointmentscheduler
+com.michaelpirlis.appointmentscheduler.controller
+com.michaelpirlis.appointmentscheduler.dao
+com.michaelpirlis.appointmentscheduler.helper
+com.michaelpirlis.appointmentscheduler.model

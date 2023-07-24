@@ -70,11 +70,20 @@ public class AppointmentAddController extends Application implements Initializab
     @FXML
     private ComboBox<Contact> contactComboBox;
 
+    /**
+     * Loads the 'appointment-add.fxml' scene when the application starts.
+     *
+     * @param stage The primary stage.
+     * @throws IOException If the file 'appointment-add.fxml' is not found.
+     */
     @Override
     public void start(Stage stage) throws IOException {
         displayScene("appointment-add.fxml", stage);
     }
 
+    /**
+     * Initializes the scene, setting up the time combo box, appointment type, customer combo box, and contact combo box.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTime();
@@ -83,6 +92,9 @@ public class AppointmentAddController extends Application implements Initializab
         setupContactCombo();
     }
 
+    /**
+     * Sets up the time combo boxes with hours and minutes. From the Date Picker controller in the Code Repository.
+     */
     protected void setupTime() {
         hours.addAll("00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
                 "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23");
@@ -93,45 +105,78 @@ public class AppointmentAddController extends Application implements Initializab
         endMinute.setItems(minutes);
     }
 
+    /**
+     * Sets up the appointment type combo box with the appointment types I chose.
+     */
     protected void setupAppointmentType() {
         ObservableList<String> options = FXCollections.observableArrayList("Coding Session",
                 "Data Structures", "Coding Puzzles");
         appointmentType.setItems(options);
     }
 
+    /**
+     * Sets up the customer combo box with all customers from the database.
+     */
     protected void setupCustomerCombo() {
         ObservableList<Customer> customers = CustomerSQL.allCustomers();
         customerComboBox.setItems(customers);
     }
 
+    /**
+     * Sets up the contact combo box with all contacts from the database.
+     */
     protected void setupContactCombo() {
         ObservableList<Contact> contacts = ContactSQL.allContacts();
         contactComboBox.setItems(contacts);
     }
 
+    /**
+     * Handles the action when the 'Add Appointment' button is clicked.
+     * Loads the 'appointment-add.fxml' scene.
+     *
+     * @param event The action event.
+     * @throws IOException If the file 'appointment-add.fxml' is not found.
+     */
     @FXML
     private void addAppointmentButton(ActionEvent event) throws IOException {
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         displayScene("appointment-add.fxml", appStage);
     }
 
+    /**
+     * Handles the action when the 'Add Customer' button is clicked.
+     * Loads the 'customer-add.fxml' scene.
+     *
+     * @param event The action event.
+     * @throws IOException If the file 'customer-add.fxml' is not found.
+     */
     @FXML
     private void addCustomerButton(ActionEvent event) throws IOException {
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         displayScene("customer-add.fxml", appStage);
     }
 
+    /**
+     * Navigates the user back to the main menu scene.
+     */
     @FXML
     protected void backButton(ActionEvent event) throws IOException {
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         displayScene("main-menu.fxml", appStage);
     }
 
+    /**
+     * Closes the JavaFX application when the exit button is clicked.
+     */
     @FXML
     private void exitButton() {
         Platform.exit();
     }
 
+    /**
+     * Handles any errors in the appointment form by checking if all fields are filled in.
+     * Appends error messages to a StringBuilder if any fields are empty or incorrect. reused frm my Software I project.
+     */
     protected void apptErrorHandling() {
         setCustomerID();
 
@@ -198,6 +243,11 @@ public class AppointmentAddController extends Application implements Initializab
         }
     }
 
+    /**
+     * Displays a message with the error messages from the StringBuilder if it is not empty.
+     *
+     * @param errorMessage The StringBuilder containing the error messages.
+     */
     private void displayErrors(StringBuilder errorMessage) {
         if (errorMessage.length() > 0) {
             Alert saveError = new Alert(Alert.AlertType.INFORMATION);
@@ -208,6 +258,9 @@ public class AppointmentAddController extends Application implements Initializab
         }
     }
 
+    /**
+     * Initializes the appointment form by clearing all fields and selections.
+     */
     protected void initializeApptForm() {
         apptTitleText.clear();
         apptDescriptionText.clear();
@@ -224,21 +277,35 @@ public class AppointmentAddController extends Application implements Initializab
         errorCheck = false;
     }
 
+    /**
+     * Sets the customer ID to the ID of the selected customer.
+     */
     private void setCustomerID() {
         Customer selectedCustomer = customerComboBox.getSelectionModel().getSelectedItem();
         customerID = selectedCustomer.getCustomerId();
     }
 
+    /**
+     * Sets the contact ID to the ID of the selected contact.
+     */
     private void setContactID() {
         Contact selectedContact = contactComboBox.getSelectionModel().getSelectedItem();
         contactID = selectedContact.getContactID();
     }
 
+    /**
+     * Sets the start and end times of the appointment. Constructs a ZonedDateTime in UTC in the timeCollection method.
+     */
     protected void setTimes() {
         zonedStart = TimeConversions.timeCollection(startHour, startMinute, startDate);
         zonedEnd = TimeConversions.timeCollection(endHour, endMinute, endDate);
     }
 
+    /**
+     * Saves the appointment to the database if there are no errors in the form.
+     * Initializes the appointment form and navigates back to the previous scene.
+     * Sets Appointment ID to 0 so database can create and auto increment. Checks for an overlapping appointment.
+     */
     @FXML
     private void saveAppointmentButton(ActionEvent event) throws IOException {
         int appointmentID = 0;
@@ -254,10 +321,6 @@ public class AppointmentAddController extends Application implements Initializab
         apptErrorHandling();
         setContactID();
 
-        /*
-          The line Timestamp lastUpdate = Timestamp.from(Instant.now());
-          creates a Timestamp representing the current time in the local time zone (Eastern Time).
-         */
         Timestamp lastUpdate = Timestamp.from(Instant.now());
 
         if (errorCheck) {
@@ -285,4 +348,5 @@ public class AppointmentAddController extends Application implements Initializab
             backButton(event);
         }
     }
+
 }

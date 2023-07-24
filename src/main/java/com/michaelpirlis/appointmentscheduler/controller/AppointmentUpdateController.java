@@ -56,11 +56,18 @@ public class AppointmentUpdateController extends AppointmentAddController implem
     private ComboBox<Contact> contactComboBox;
 
 
+    /**
+     * Loads the 'appointment-update.fxml' scene.
+     */
     @Override
     public void start(Stage stage) throws IOException {
         displayScene("appointment-update.fxml", stage);
     }
 
+    /**
+     * This method initializes the scene by setting up the combo boxes with importing customer, contact information,
+     * and updating appointment details.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTime();
@@ -72,9 +79,10 @@ public class AppointmentUpdateController extends AppointmentAddController implem
         contactImport();
     }
 
-    // Get the customerID for the updateAppointment
-    // Go through each item in the ComboBox
-    // If the customerID matches the selectedCustomerID, select this item in the ComboBox
+    /**
+     * This method selects the customer in the combo box that matches the customerID of the updateAppointment. It goes
+     * through each item in the combo box to find the match.
+     */
     private void customerImport() {
         int selectedCustomerID = updateAppointment.getCustomerID();
 
@@ -87,6 +95,9 @@ public class AppointmentUpdateController extends AppointmentAddController implem
         }
     }
 
+    /**
+     * This method selects the contact in the contact combo box that matches the contactID of the updateAppointment.
+     */
     private void contactImport() {
         int selectedContactID = updateAppointment.getContactID();
 
@@ -99,6 +110,10 @@ public class AppointmentUpdateController extends AppointmentAddController implem
         }
     }
 
+    /**
+     * This method imports the details of the updateAppointment and sets the corresponding fields in the scene.
+     * Added formatting so that I could continue to use my combo boxes for hours and minutes.
+     */
     private void updateAppointmentImport() {
         if (updateAppointment != null) {
             apptIDText.setText(String.valueOf(updateAppointment.getApptID()));
@@ -115,11 +130,19 @@ public class AppointmentUpdateController extends AppointmentAddController implem
         }
     }
 
+    /**
+     * This method sets the contactID to the contactID of the selected contact in the combo box.
+     */
     private void setContactID() {
         Contact selectedContact = contactComboBox.getSelectionModel().getSelectedItem();
         contactID = selectedContact.getContactID();
     }
 
+    /**
+     * This method is triggered when the updateAppointmentButton is clicked. It validates the inputs, creates an Appointment,
+     * calls the updateAppointment method to update the appointment in the database, and then clears the form. I also moved
+     * logic in here to exlude this appointment from overlapping itself by using the ID to exclude it.
+     */
     @FXML
     private void updateAppointmentButton(ActionEvent event) throws IOException {
 

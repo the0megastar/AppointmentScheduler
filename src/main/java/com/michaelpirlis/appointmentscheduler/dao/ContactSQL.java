@@ -11,6 +11,13 @@ import java.sql.SQLException;
 
 public class ContactSQL {
 
+    /**
+     * An SQL query to retrieve contacts and add them to the ObservableList.
+     *
+     * @param getContacts The ObservableList to add the contacts.
+     * @param query       The SQL query to execute.
+     * @return An ObservableList containing the contacts.
+     */
     private static ObservableList<Contact> getContacts(ObservableList<Contact> getContacts, String query) {
         try {
             PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
@@ -30,6 +37,11 @@ public class ContactSQL {
         }
     }
 
+    /**
+     * Retrieves a list of all contacts from the database.
+     *
+     * @return An ObservableList with all contacts.
+     */
     public static ObservableList<Contact> allContacts() {
         ObservableList<Contact> allContacts = FXCollections.observableArrayList();
 
@@ -38,6 +50,12 @@ public class ContactSQL {
         return getContacts(allContacts, query);
     }
 
+    /**
+     * Retrieves the string identifier for the Contact.
+     *
+     * @param contactID The Contact ID used to find the Contact String.
+     * @return The Contact's Name.
+     */
     public static String getContactName(int contactID) {
         String getContactName = null;
 
@@ -55,4 +73,5 @@ public class ContactSQL {
         }
         return null;
     }
+
 }

@@ -17,6 +17,13 @@ import static com.michaelpirlis.appointmentscheduler.helper.TimeConversions.conv
 
 public class AppointmentSQL {
 
+    /**
+     * An SQL query to retrieve a list of appointments and adds them to the ObservableList.
+     *
+     * @param appointments The ObservableList where the appointments will be added.
+     * @param query        The SQL query to execute.
+     * @return An ObservableList with the retrieved appointments.
+     */
     private static ObservableList<Appointment> getAppointments(ObservableList<Appointment> appointments, String query) {
         try {
             PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
@@ -56,6 +63,11 @@ public class AppointmentSQL {
         }
     }
 
+    /**
+     * Retrieves a list of all appointments from the database.
+     *
+     * @return An ObservableList with all appointments.
+     */
     public static ObservableList<Appointment> allAppointments() {
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
 
@@ -64,6 +76,11 @@ public class AppointmentSQL {
         return getAppointments(allAppointments, query);
     }
 
+    /**
+     * Retrieves a list of appointments from the database scheduled for next week.
+     *
+     * @return An ObservableList with appointments for the next week.
+     */
     public static ObservableList<Appointment> weeklyAppointments() {
         ObservableList<Appointment> weeklyAppointments = FXCollections.observableArrayList();
 
@@ -73,6 +90,11 @@ public class AppointmentSQL {
         return getAppointments(weeklyAppointments, query);
     }
 
+    /**
+     * Retrieves a list of appointments from the database scheduled for next month.
+     *
+     * @return An ObservableList with appointments for the next month.
+     */
     public static ObservableList<Appointment> monthlyAppointments() {
         ObservableList<Appointment> monthlyAppointments = FXCollections.observableArrayList();
 
@@ -83,6 +105,12 @@ public class AppointmentSQL {
         return getAppointments(monthlyAppointments, query);
     }
 
+    /**
+     * Retrieves a list of appointments from the database for a specific contact.
+     *
+     * @param contactID The ID of the contact.
+     * @return An ObservableList with appointments for the contact.
+     */
     public static ObservableList<Appointment> contactAppointments(int contactID) {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
@@ -98,6 +126,11 @@ public class AppointmentSQL {
     }
 
 
+    /**
+     * Deletes an appointment from the database by the appointment ID.
+     *
+     * @param appointmentID The ID of the appointment to delete.
+     */
     public static void deleteAppointments(int appointmentID) {
         String query = "DELETE FROM appointments WHERE Appointment_ID = ?;";
 
@@ -111,6 +144,11 @@ public class AppointmentSQL {
         }
     }
 
+    /**
+     * Deletes all appointments for a specific customer from the database. Used whn deleting a customer.
+     *
+     * @param customerID The customer's appointments to be deleted.
+     */
     public static void deleteCustomerAppointments(int customerID) {
         String query = "DELETE FROM appointments WHERE Customer_ID = ?;";
 
@@ -124,6 +162,14 @@ public class AppointmentSQL {
         }
     }
 
+    /**
+     * Checks for overlapping appointments in the database.
+     *
+     * @param apptID The ID of the appointment to check.
+     * @param start  The start time of the appointment.
+     * @param end    The end time of the appointment.
+     * @return A message if the appointments overlap, or null if none are found.
+     */
     public static String appointmentOverlap(int apptID, ZonedDateTime start, ZonedDateTime end) {
         String query = "SELECT * FROM appointments WHERE ((Start BETWEEN ? AND ?) OR (End BETWEEN ? AND ?) "
                 + "OR (? BETWEEN Start AND End) OR (? BETWEEN Start AND End)) AND Appointment_ID != ?";
@@ -150,11 +196,9 @@ public class AppointmentSQL {
 
 
     /**
-     * PreparedStatement.setTimestamp() expects a Timestamp, not a ZonedDateTime.
-     * To convert a ZonedDateTime to a Timestamp, you first need to convert it to a LocalDateTime,
-     * which also represents a point on the timeline but without any time zone information.
-     * So, when you call toLocalDateTime() on a ZonedDateTime, it essentially strips off the time zone information,
-     * leaving you with a LocalDateTime. You can then convert that LocalDateTime to a Timestamp using Timestamp.valueOf().
+     * Creates a new appointment in the database.
+     *
+     * @param appointment The appointment to be created in the database.
      */
     public static void createAppointment(Appointment appointment) {
         String query = "INSERT INTO appointments(Title, Description, Location, Type, Start, End, "
@@ -183,6 +227,11 @@ public class AppointmentSQL {
         }
     }
 
+    /**
+     * Updates an existing appointment in the database.
+     *
+     * @param appointment The appointment to be updated in the database.
+     */
     public static void updateAppointment(Appointment appointment) {
         String query = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, "
                 + "Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? "
@@ -209,6 +258,11 @@ public class AppointmentSQL {
         }
     }
 
+    /**
+     * Look for an appointment that starts NOW or NOW + 15 Minutes.
+     *
+     * @return The upcoming appointment, or null if none is found.
+     */
     public static Appointment upcomingAppointment() {
         String query = "SELECT * FROM appointments WHERE Start BETWEEN NOW() AND NOW() + INTERVAL 15 MINUTE;";
         try {
@@ -242,6 +296,13 @@ public class AppointmentSQL {
         return null;
     }
 
+    /**
+     * Counts the number of appointments for a specific type and specific month.
+     *
+     * @param type  The type of the appointment.
+     * @param month The month to count the appointments.
+     * @return The number of appointments for the specific type in the specified month.
+     */
     public static int appointmentMonthType(String type, String month) {
         String query = "SELECT COUNT(*) FROM appointments WHERE Type = ? AND MONTHNAME(Start) = ?;";
         int count = 0;
@@ -260,7 +321,6 @@ public class AppointmentSQL {
         }
         return count;
     }
-
 
 
 }

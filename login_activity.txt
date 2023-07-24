@@ -88,3 +88,11 @@ Jul 24, 2023 10:18:25 AM com.michaelpirlis.appointmentscheduler.controller.Login
 INFO: Successful login by user 'Test' at 2023-07-24 10:18:25 [America/New_York]
 Jul 24, 2023 10:22:32 AM com.michaelpirlis.appointmentscheduler.controller.LoginController loginButton
 INFO: Successful login by user 'TEST' at 2023-07-24 10:22:32 [America/New_York]
+Jul 24, 2023 11:11:59 AM com.michaelpirlis.appointmentscheduler.controller.LoginController loginButton
+INFO: Successful login by user 'TEST' at 2023-07-24 11:11:59 [America/New_York]
+Jul 24, 2023 11:15:37 AM com.michaelpirlis.appointmentscheduler.controller.LoginController loginButton
+INFO: Successful login by user 'TEST' at 2023-07-24 11:15:37 [America/New_York]
+Jul 24, 2023 4:48:24 PM com.michaelpirlis.appointmentscheduler.controller.LoginController loginButton
+INFO: Unsuccessful login attempt by user 'test' at 2023-07-24 16:48:24 [America/New_York]
+Jul 24, 2023 4:48:33 PM com.michaelpirlis.appointmentscheduler.controller.LoginController loginButton
+INFO: Successful login by user 'test' at 2023-07-24 16:48:33 [America/New_York]

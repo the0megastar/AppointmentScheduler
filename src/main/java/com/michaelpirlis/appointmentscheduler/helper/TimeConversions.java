@@ -8,15 +8,26 @@ import java.time.*;
 
 public class TimeConversions {
 
-    // As for the convertTime method,
-    // it's useful if you want to convert a UTC timestamp from your database back to the system's time zone.
-    // IntelliJ suggested the return line. Thank goodness. grabs appointments and shows it in the system time
+    /**
+     * Converts a UTC timestamp from the database to the system's time zone. IntelliJ suggested the return line.
+     *
+     * @param timestamp The UTC timestamp.
+     * @return The timestamp converted to the system's time zone.
+     */
     public static ZonedDateTime convertTime(Timestamp timestamp) {
         ZonedDateTime utcZonedDateTime = timestamp.toInstant().atZone(ZoneId.of("UTC"));
         return utcZonedDateTime.withZoneSameInstant(ZoneId.systemDefault());
     }
 
-    // this method will return a ZonedDateTime in UTC, which you can save to your database.
+    /**
+     * Constructs a ZonedDateTime in UTC from the hour, minute, and date, which can be saved to the database.
+     * I created combo boxes to select each element. This also joins them to prepare for saving.
+     *
+     * @param apptHour   The hour of the appointment.
+     * @param apptMinute The minute of the appointment.
+     * @param apptDate   The date of the appointment.
+     * @return The constructed ZonedDateTime in UTC.
+     */
     public static ZonedDateTime timeCollection(ComboBox<String> apptHour,
                                                ComboBox<String> apptMinute,
                                                DatePicker apptDate) {
@@ -30,31 +41,31 @@ public class TimeConversions {
         return zonedApptTime.withZoneSameInstant(ZoneId.of("UTC"));
     }
 
+    /**
+     * Retrieves the current time in UTC. Zone ID of the system, then same instance of that time in the UTC zone.
+     *
+     * @return The current ZonedDateTime in UTC.
+     */
     public static ZonedDateTime currentZoned() {
         return ZonedDateTime.now(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC"));
     }
 
-//    public static Timestamp createTimestamp() {
-//        return Timestamp.valueOf(TimeConversions.currentZoned().toLocalDateTime());
-//    }
-
-//    public static Timestamp convertToTimestamp(ZonedDateTime zonedDateTime) {
-//        return Timestamp.valueOf(zonedDateTime.toLocalDateTime());
-//    }
-
+    /**
+     * Checks if the start and end times are inside business hours (8:00 to 22:00) in Eastern Time.
+     *
+     * @param start The start time of the appointment.
+     * @param end   The end time of the appointment.
+     * @return Boolean. True if the appointment is within business hours, false if not.
+     */
     public static boolean businessHours(ZonedDateTime start, ZonedDateTime end) {
-        // Convert appointment times to Eastern Time
         ZonedDateTime startEastern = start.withZoneSameInstant(ZoneId.of("America/New_York"));
         ZonedDateTime endEastern = end.withZoneSameInstant(ZoneId.of("America/New_York"));
 
-        // Define business hours
         LocalTime businessStart = LocalTime.of(8, 0);
         LocalTime businessEnd = LocalTime.of(22, 0);
 
-        // Check if appointment times are within business hours
         return !startEastern.toLocalTime().isBefore(businessStart) && !endEastern.toLocalTime().isAfter(businessEnd);
     }
-
 
 }
 

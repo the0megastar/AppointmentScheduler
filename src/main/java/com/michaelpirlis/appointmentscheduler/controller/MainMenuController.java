@@ -80,17 +80,32 @@ public class MainMenuController extends Application implements Initializable {
     @FXML
     private Button reportsButton;
 
+    /**
+     * Sets up the appointment table with the columns and data.
+     *
+     * @param allAppointmentTable          The TableView to set up.
+     * @param appointmentIdColumn          The column for the appointment ID.
+     * @param appointmentTitleColumn       The column for the appointment title.
+     * @param appointmentDescriptionColumn The column for the appointment description.
+     * @param appointmentLocationColumn    The column for the appointment location.
+     * @param appointmentContactColumn     The column for the appointment contact.
+     * @param appointmentTypeColumn        The column for the appointment type.
+     * @param appointmentStartColumn       The column for the appointment start time.
+     * @param appointmentEndColumn         The column for the appointment end time.
+     * @param appointmentCustomerIdColumn  The column for the customer ID associated with the appointment.
+     * @param appointmentUserId            The column for the user ID associated with the appointment.
+     */
     public static void appointmentTableSetup(TableView<Appointment> allAppointmentTable,
-                                      TableColumn<Object, Object> appointmentIdColumn,
-                                      TableColumn<Object, Object> appointmentTitleColumn,
-                                      TableColumn<Object, Object> appointmentDescriptionColumn,
-                                      TableColumn<Object, Object> appointmentLocationColumn,
-                                      TableColumn<Appointment, String> appointmentContactColumn,
-                                      TableColumn<Object, Object> appointmentTypeColumn,
-                                      TableColumn<Appointment, String> appointmentStartColumn,
-                                      TableColumn<Appointment, String> appointmentEndColumn,
-                                      TableColumn<Object, Object> appointmentCustomerIdColumn,
-                                      TableColumn<Object, Object> appointmentUserId) {
+                                             TableColumn<Object, Object> appointmentIdColumn,
+                                             TableColumn<Object, Object> appointmentTitleColumn,
+                                             TableColumn<Object, Object> appointmentDescriptionColumn,
+                                             TableColumn<Object, Object> appointmentLocationColumn,
+                                             TableColumn<Appointment, String> appointmentContactColumn,
+                                             TableColumn<Object, Object> appointmentTypeColumn,
+                                             TableColumn<Appointment, String> appointmentStartColumn,
+                                             TableColumn<Appointment, String> appointmentEndColumn,
+                                             TableColumn<Object, Object> appointmentCustomerIdColumn,
+                                             TableColumn<Object, Object> appointmentUserId) {
         allAppointmentTable.setItems(allAppointments());
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("apptID"));
         appointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<>("apptTitle"));
@@ -106,14 +121,26 @@ public class MainMenuController extends Application implements Initializable {
         appointmentEndColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getApptEnd().format(formatter)));
     }
 
+    /**
+     * Sets up the customer table with the columns and data.
+     *
+     * @param allCustomerTable      The TableView to set up.
+     * @param customerIdColumn      The column for the customer ID.
+     * @param customerNameColumn    The column for the customer name.
+     * @param customerStreetColumn  The column for the customer's street.
+     * @param customerPostalColumn  The column for the customer's postal code.
+     * @param customerPhoneColumn   The column for the customer's phone number.
+     * @param customerStateColumn   The column for the customer's state.
+     * @param customerCountryColumn The column for the customer's country.
+     */
     public static void customerTableSetup(TableView<Customer> allCustomerTable,
-                                   TableColumn<Object, Object> customerIdColumn,
-                                   TableColumn<Object, Object> customerNameColumn,
-                                   TableColumn<Object, Object> customerStreetColumn,
-                                   TableColumn<Object, Object> customerPostalColumn,
-                                   TableColumn<Object, Object> customerPhoneColumn,
-                                   TableColumn<Object, Object> customerStateColumn,
-                                   TableColumn<Object, Object> customerCountryColumn) {
+                                          TableColumn<Object, Object> customerIdColumn,
+                                          TableColumn<Object, Object> customerNameColumn,
+                                          TableColumn<Object, Object> customerStreetColumn,
+                                          TableColumn<Object, Object> customerPostalColumn,
+                                          TableColumn<Object, Object> customerPhoneColumn,
+                                          TableColumn<Object, Object> customerStateColumn,
+                                          TableColumn<Object, Object> customerCountryColumn) {
         allCustomerTable.setItems(allCustomers());
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
@@ -124,55 +151,29 @@ public class MainMenuController extends Application implements Initializable {
         customerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
     }
 
+    /**
+     * Loads the specified scene. Crated a method to provide the fxml instead of this code block.
+     *
+     * @param fxmlFile The file of the scene to display.
+     * @param stage    The stage to display the scene in.
+     * @throws IOException If the file is not found.
+     */
     public static void displayScene(String fxmlFile, Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainMenuController.class.getResource("/com/michaelpirlis/appointmentscheduler/" + fxmlFile));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainMenuController.class.getResource(
+                "/com/michaelpirlis/appointmentscheduler/" + fxmlFile));
         Scene scene = new Scene(fxmlLoader.load(), 1024, 600);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
     }
 
-    public void initialize(URL location, ResourceBundle resources) {
-        setupAppointmentFilter();
-        changeAppointmentFilter();
-
-        appointmentTableSetup(allAppointmentTable, appointmentIdColumn, appointmentTitleColumn,
-                appointmentDescriptionColumn, appointmentLocationColumn, appointmentContactColumn,
-                appointmentTypeColumn, appointmentStartColumn, appointmentEndColumn, appointmentCustomerIdColumn,
-                appointmentUserId);
-
-        customerTableSetup(allCustomerTable, customerIdColumn, customerNameColumn, customerStreetColumn,
-                customerPostalColumn, customerPhoneColumn, customerStateColumn, customerCountryColumn);
-
-    }
-
-    private void setupAppointmentFilter() {
-        ObservableList<String> options = FXCollections.observableArrayList("All", "Weekly", "Monthly");
-        appointmentFilter.setItems(options);
-        appointmentFilter.getSelectionModel().select("All");
-    }
-
-    @FXML
-    private void changeAppointmentFilter() {
-        appointmentFilter.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> {
-
-            if (newSelection != null) {
-                allAppointmentTable.getItems().clear();
-
-                switch (newSelection) {
-                    case "All" -> allAppointmentTable.getItems().addAll(allAppointments());
-                    case "Weekly" -> allAppointmentTable.getItems().addAll(weeklyAppointments());
-                    case "Monthly" -> allAppointmentTable.getItems().addAll(monthlyAppointments());
-                }
-            }
-        });
-    }
-
-    @Override
-    public void start(Stage stage) throws IOException {
-        displayScene("main-menu.fxml", stage);
-    }
-
+    /**
+     * Checks for any appointments coming up within the next 15 minutes and displays an alert message.
+     * The alert message varies on whether there is an upcoming appointment or not. The scope did not contain it,
+     * I would have preferred no message unless an appointment was found and initialize it when the 'menu-menu'
+     * was called. Runs the SQL check to the database and saves the Appointment if found so that it may be displayed
+     * in the alert.
+     */
     public static void appointmentCheck() {
         Appointment upcomingAppointment = upcomingAppointment();
 
@@ -198,7 +199,71 @@ public class MainMenuController extends Application implements Initializable {
 
     }
 
+    /**
+     * Initializes the scene, setting up the appointment filter and table, and the customer table.
+     */
+    public void initialize(URL location, ResourceBundle resources) {
+        setupAppointmentFilter();
+        changeAppointmentFilter();
 
+        appointmentTableSetup(allAppointmentTable, appointmentIdColumn, appointmentTitleColumn,
+                appointmentDescriptionColumn, appointmentLocationColumn, appointmentContactColumn,
+                appointmentTypeColumn, appointmentStartColumn, appointmentEndColumn, appointmentCustomerIdColumn,
+                appointmentUserId);
+
+        customerTableSetup(allCustomerTable, customerIdColumn, customerNameColumn, customerStreetColumn,
+                customerPostalColumn, customerPhoneColumn, customerStateColumn, customerCountryColumn);
+
+    }
+
+    /**
+     * Sets up the appointment filter with options and sets the default selection to "All".
+     */
+    private void setupAppointmentFilter() {
+        ObservableList<String> options = FXCollections.observableArrayList("All", "Weekly", "Monthly");
+        appointmentFilter.setItems(options);
+        appointmentFilter.getSelectionModel().select("All");
+    }
+
+    /**
+     * Changes the items displayed in the appointment table based on the selected filter option. LAMBDA expressions are
+     * used throughout the application when multiple selections are needed. It helps in my case to compare the old and
+     * new selection the run the code. In this case clearing the table and then getting the appointment time frames.
+     * IntelliJ also recommend the format for the updated cases. The code repository had a great example for alerts.
+     * alert.showAndWait().ifPresent((response ->
+     * I found this example in https://stackoverflow.com/questions/41323945/javafx-combobox-add-listener-on-selected-item-value
+     * with the second answer with 8 upvotes.
+     */
+    @FXML
+    private void changeAppointmentFilter() {
+        appointmentFilter.getSelectionModel().selectedItemProperty().addListener((observable, oldSelection, newSelection) -> {
+
+            if (newSelection != null) {
+                allAppointmentTable.getItems().clear();
+
+                switch (newSelection) {
+                    case "All" -> allAppointmentTable.getItems().addAll(allAppointments());
+                    case "Weekly" -> allAppointmentTable.getItems().addAll(weeklyAppointments());
+                    case "Monthly" -> allAppointmentTable.getItems().addAll(monthlyAppointments());
+                }
+            }
+        });
+    }
+
+    /**
+     * Loads the 'main-menu.fxml' scene.
+     *
+     * @param stage The primary stage.
+     * @throws IOException If the file 'main-menu.fxml' is not found.
+     */
+    @Override
+    public void start(Stage stage) throws IOException {
+        displayScene("main-menu.fxml", stage);
+    }
+
+    /**
+     * Displays an alert message when no item is selected from a table.
+     */
     private void noSelection() {
         Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
         noSelection.setTitle("No Selection");
@@ -207,6 +272,10 @@ public class MainMenuController extends Application implements Initializable {
         noSelection.showAndWait();
     }
 
+    /**
+     * Deletes the selected appointment from the database.
+     * Displays an alert message to confirm the deletion.
+     */
     @FXML
     private void deleteAppointmentButton() {
         Appointment selectedAppointment = allAppointmentTable.getSelectionModel().getSelectedItem();
@@ -233,6 +302,11 @@ public class MainMenuController extends Application implements Initializable {
         }
     }
 
+    /**
+     * Deletes the selected customer from the database.
+     * Also deletes any appointments associated with the customer.
+     * Displays an alert message to confirm the deletion.
+     */
     @FXML
     private void deleteCustomerButton() {
         Customer selectedCustomer = allCustomerTable.getSelectionModel().getSelectedItem();
@@ -262,12 +336,27 @@ public class MainMenuController extends Application implements Initializable {
         }
     }
 
+    /**
+     * Handles the action when the 'Add Appointment' button is clicked.
+     * Loads the 'appointment-add.fxml' scene.
+     *
+     * @param event The action event.
+     * @throws IOException If the file 'appointment-add.fxml' is not found.
+     */
     @FXML
     private void addAppointmentButton(ActionEvent event) throws IOException {
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         displayScene("appointment-add.fxml", appStage);
     }
 
+    /**
+     * Handles the action when the 'Update Appointment' button is clicked.
+     * Checks if an appointment is selected and loads the 'appointment-update.fxml' scene.
+     * If no appointment is selected, it calls the noSelection() method.
+     *
+     * @param event The action event.
+     * @throws IOException If the file 'appointment-update.fxml' is not found.
+     */
     @FXML
     private void updateAppointmentButton(ActionEvent event) throws IOException {
         updateAppointment = allAppointmentTable.getSelectionModel().getSelectedItem();
@@ -280,12 +369,27 @@ public class MainMenuController extends Application implements Initializable {
         }
     }
 
+    /**
+     * Handles the action when the 'Add Customer' button is clicked.
+     * Loads the 'customer-add.fxml' scene.
+     *
+     * @param event The action event.
+     * @throws IOException If the file 'customer-add.fxml' is not found.
+     */
     @FXML
     private void addCustomerButton(ActionEvent event) throws IOException {
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         displayScene("customer-add.fxml", appStage);
     }
 
+    /**
+     * Handles the action when the 'Update Customer' button is clicked.
+     * Checks if a customer is selected and loads the 'customer-update.fxml' scene.
+     * If no customer is selected, it calls the noSelection() method.
+     *
+     * @param event The action event.
+     * @throws IOException If the file 'customer-update.fxml' is not found.
+     */
     @FXML
     private void updateCustomerButton(ActionEvent event) throws IOException {
         updateCustomer = allCustomerTable.getSelectionModel().getSelectedItem();
@@ -298,12 +402,22 @@ public class MainMenuController extends Application implements Initializable {
         }
     }
 
+    /**
+     * Handles the action when the 'Reports' button is clicked.
+     * Loads and displays the 'reports.fxml' scene.
+     *
+     * @param event The action event.
+     * @throws IOException If the file 'reports.fxml' is not found.
+     */
     @FXML
     private void reportsButton(ActionEvent event) throws IOException {
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         displayScene("reports.fxml", appStage);
     }
 
+    /**
+     * Closes the JavaFX application when the exit button is clicked.
+     */
     @FXML
     private void exitButton() {
         Platform.exit();

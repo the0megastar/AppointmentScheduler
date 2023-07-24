@@ -46,11 +46,23 @@ public class CustomerAddController extends Application implements Initializable 
     @FXML
     private Button cancelButton;
 
+    /**
+     * Loads the 'customer-add.fxml' scene.
+     *
+     * @param stage The primary stage.
+     * @throws IOException If the file 'main-menu.fxml' is not found.
+     */
     @Override
     public void start(Stage stage) throws IOException {
         displayScene("customer-add.fxml", stage);
     }
 
+    /**
+     * Initializes the scene, setting up the country combo box and its filter.
+     *
+     * @param url The location used to resolve relative paths for the root object.
+     * @param resourceBundle The resources used to localize the root object.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupCountryCombo();
@@ -58,11 +70,17 @@ public class CustomerAddController extends Application implements Initializable 
         divisionComboBox.setPromptText("Please Choose a Country");
     }
 
+    /**
+     * Sets up the country combo box with all countries from the database.
+     */
     protected void setupCountryCombo() {
         ObservableList<Country> countries = CountrySQL.allCountries();
         countryComboBox.setItems(countries);
     }
 
+    /**
+     * Changes the divisions displayed in the division combo box based on the selected country. LAMBDA Expression.
+     */
     @FXML
     protected void changeCountryFilter() {
         countryComboBox.valueProperty().addListener((observable, oldCountry, newCountry) -> {
@@ -80,7 +98,7 @@ public class CustomerAddController extends Application implements Initializable 
     }
 
     /**
-     * Used to clear all text fields and enable the InHouse radio button and form. Created a default view.
+     * Initializes the customer form by clearing all fields and selections.
      */
     protected void initializeCustomerForm() {
         customerIDTextField.clear();
@@ -93,6 +111,11 @@ public class CustomerAddController extends Application implements Initializable 
         setupCountryCombo();
     }
 
+    /**
+     * Handles any errors in the customer form by checking if all fields are filled in.
+     * Appends error messages to a StringBuilder if any fields are empty. I reused this logic from my Software I project,
+     * which linked to a logicCheck. I modified it here and included some logic here and in the save method.
+     */
     protected void customerErrorHandling() {
         StringBuilder errorMessage = new StringBuilder();
 
@@ -127,6 +150,11 @@ public class CustomerAddController extends Application implements Initializable 
         }
     }
 
+    /**
+     * Displays an alert message with the error messages from the StringBuilder if it is not empty.
+     *
+     * @param errorMessage The StringBuilder containing the error messages.
+     */
     private void displayErrors(StringBuilder errorMessage) {
         if (errorMessage.length() > 0) {
             Alert saveError = new Alert(Alert.AlertType.INFORMATION);
@@ -137,6 +165,14 @@ public class CustomerAddController extends Application implements Initializable 
         }
     }
 
+    /**
+     * Saves the customer to the database if there are no errors.
+     * Initializes the customer form and returns back to the previous scene. Customer ID set to 0 as database
+     * automatically generates ID and increments.
+     *
+     * @param event The action event.
+     * @throws IOException If the previous scene file is not found.
+     */
     @FXML
     private void saveCustomerButton(ActionEvent event) throws IOException {
         customerErrorHandling();
@@ -160,24 +196,44 @@ public class CustomerAddController extends Application implements Initializable 
         }
     }
 
+    /**
+     * Handles the action when the 'Add Appointment' button is clicked.
+     * Loads the 'appointment-add.fxml' scene.
+     *
+     * @param event The action event.
+     * @throws IOException If the file 'appointment-add.fxml' is not found.
+     */
     @FXML
     private void addAppointmentButton(ActionEvent event) throws IOException {
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         displayScene("appointment-add.fxml", appStage);
     }
 
+    /**
+     * Handles the action when the 'Add Customer' button is clicked.
+     * Loads the 'customer-add.fxml' scene.
+     *
+     * @param event The action event.
+     * @throws IOException If the file 'customer-add.fxml' is not found.
+     */
     @FXML
     private void addCustomerButton(ActionEvent event) throws IOException {
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         displayScene("customer-add.fxml", appStage);
     }
 
+    /**
+     * Navigates the user back to the main menu scene.
+     */
     @FXML
     void backButton(ActionEvent event) throws IOException {
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         displayScene("main-menu.fxml", appStage);
     }
 
+    /**
+     * Closes the JavaFX application when the exit button is clicked.
+     */
     @FXML
     private void exitButton() {
         Platform.exit();

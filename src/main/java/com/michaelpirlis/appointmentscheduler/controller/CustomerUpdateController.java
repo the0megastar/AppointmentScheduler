@@ -44,11 +44,18 @@ public class CustomerUpdateController extends CustomerAddController implements I
     private Button cancelButton;
 
 
+    /**
+     * Loads the 'customer-update.fxml' scene.
+     */
     @Override
     public void start(Stage stage) throws IOException {
         displayScene("customer-update.fxml", stage);
     }
 
+    /**
+     * Initializes the scene by importing the selected customer then updates the Division and Country,
+     * setting up the appointment filter and table/
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         updateCustomerImport();
@@ -64,16 +71,10 @@ public class CustomerUpdateController extends CustomerAddController implements I
     }
 
     /**
-     * Fetches and sets the division and country details for the customer being updated.
-     *
-     * <p>This method does the following:
-     * <ul>
-     * <li>Fetches the division associated with the customer and stores the details.</li>
-     * <li>Retrieves the country ID related to the division.</li>
-     * <li>Gets all divisions within the country and sets these as items in the division ComboBox.</li>
-     * <li>Selects the division for the customer in the division ComboBox.</li>
-     * <li>Fetches and sets the country associated with the country ID in the country ComboBox.</li>
-     * </ul>
+     * Retrieves the division linked with the customer and stores it. Uses that to get the country. Then I am able to
+     * populate the combo boxes with the IDs known. Technically I load the Country and Division and use 0 to get
+     * the only item in the combo boxes. Then I load the full lists. I thought this was much easier finding 1 item then
+     * loading everything first.
      *
      * @throws SQLException if there's an error during the database operation.
      */
@@ -89,6 +90,10 @@ public class CustomerUpdateController extends CustomerAddController implements I
         countryComboBox.getSelectionModel().select(countries.get(0));
     }
 
+    /**
+     * This method imports the details of the updateCustomer and sets the corresponding fields in the scene.
+     * created and used additional methods to populate the combo boxes.
+     */
     private void updateCustomerImport() {
         if (updateCustomer != null) {
             customerIDTextField.setText(String.valueOf(updateCustomer.getCustomerId()));
@@ -99,6 +104,14 @@ public class CustomerUpdateController extends CustomerAddController implements I
         }
     }
 
+    /**
+     * Updates the customer to the database if there are no errors.
+     * Initializes the customer form and returns back to the previous scene. Customer ID used in this case to perform
+     * the update in the database.
+     *
+     * @param event The action event.
+     * @throws IOException If the previous scene file is not found.
+     */
     @FXML
     private void updateCustomerButton(ActionEvent event) throws IOException {
         customerErrorHandling();

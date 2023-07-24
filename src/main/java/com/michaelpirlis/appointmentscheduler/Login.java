@@ -17,8 +17,9 @@ public class Login extends Application implements Initializable {
         launch(args);
         JDBC.closeConnection();
     }
+
     /**
-     * This method loads the main-menu FXML file for the application,
+     * This method loads the login FXML file for the application,
      * sets up the scene, and displays the primary stage.
      */
     @Override

@@ -29,7 +29,8 @@ import static com.michaelpirlis.appointmentscheduler.dao.UserSQL.loginCheck;
 
 public class LoginController extends Application implements Initializable {
 
-    private static final ResourceBundle messages = ResourceBundle.getBundle("com.michaelpirlis.appointmentscheduler.MessagesBundle", Locale.getDefault());
+    private static final ResourceBundle messages = ResourceBundle.getBundle(
+            "com.michaelpirlis.appointmentscheduler.MessagesBundle", Locale.getDefault());
     public static int currentUserID;
     public static String currentUsername;
     private Logger log;
@@ -49,11 +50,21 @@ public class LoginController extends Application implements Initializable {
     private Button loginButton;
     private String alertMessage;
 
+    /**
+     * The starting point for the JavaFX application.
+     *
+     * @param stage The primary stage for this application.
+     * @throws IOException If the file 'login.fxml' is not found.
+     */
     @Override
     public void start(Stage stage) throws IOException {
         displayScene("login.fxml", stage);
     }
 
+    /**
+     * This method is called to initialize the controller. It sets up the activity logger and language settings,
+     * and displays the system time. Could I have placed my languages Resource Bundle here?
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         activityLogger();
@@ -61,7 +72,9 @@ public class LoginController extends Application implements Initializable {
         systemTime(zoneLabel);
     }
 
-    // from code repository. Changed to all Levels with level.INFO
+    /**
+     * Sets up a logger that logs all INFO level messages. From code repository.
+     */
     private void activityLogger() {
         log = Logger.getLogger("login_activity.txt");
 
@@ -77,11 +90,21 @@ public class LoginController extends Application implements Initializable {
         }
     }
 
+    /**
+     * Displays the system's current time zone.
+     *
+     * @param timeLabel The label that will display the time zone.
+     */
     public void systemTime(Label timeLabel) {
         ZoneId currentZone = ZoneId.systemDefault();
         timeLabel.setText(currentZone.getId());
     }
 
+    /**
+     * Formats the current date and time along with the system's time zone.
+     *
+     * @return The formatted string.
+     */
     private String formatTime() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         ZoneId zoneId = ZoneId.systemDefault();
@@ -90,8 +113,10 @@ public class LoginController extends Application implements Initializable {
         return currentTime + " [" + zoneId.getId() + "]";
     }
 
+    /**
+     * Sets the text of the labels and buttons to the selected language.
+     */
     private void setLanguage() {
-        // Set the text of the labels and buttons
         usernameLabel.setText(messages.getString("usernameLabel"));
         passwordLabel.setText(messages.getString("passwordLabel"));
         usernameField.setPromptText(messages.getString("usernamePrompt"));
@@ -101,6 +126,9 @@ public class LoginController extends Application implements Initializable {
         alertMessage = messages.getString("alertMessage");
     }
 
+    /**
+     * Displays an information alert for an incorrect login attempt.
+     */
     private void incorrectLogin() {
         Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
         noSelection.setTitle("No Selection");
@@ -109,6 +137,15 @@ public class LoginController extends Application implements Initializable {
         noSelection.showAndWait();
     }
 
+    /**
+     * Gathers the string username and password then runs loginCheck which checks if a user is located in the database.
+     * If a user is found the value is set true. Then formats the time using method formatTime of readability in the
+     * activity.txt file. If the loginSuccess value is false, log failed attempt and provide alert. Else log the
+     * successful login and save the User ID and Username for actions within the application.
+     *
+     * @param event The action event.
+     * @throws IOException If the file 'main-menu.fxml' is not found.
+     */
     public void loginButton(ActionEvent event) throws IOException {
         String username = usernameField.getText();
         String password = passwordField.getText();
@@ -134,6 +171,9 @@ public class LoginController extends Application implements Initializable {
         }
     }
 
+    /**
+     * Closes the JavaFX application when the exit button is clicked.
+     */
     @FXML
     private void exitButton() {
         Platform.exit();

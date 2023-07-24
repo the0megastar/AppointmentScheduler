@@ -1,7 +1,6 @@
 package com.michaelpirlis.appointmentscheduler.dao;
 
 import com.michaelpirlis.appointmentscheduler.helper.JDBC;
-import com.michaelpirlis.appointmentscheduler.model.Customer;
 import com.michaelpirlis.appointmentscheduler.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +16,11 @@ import static com.michaelpirlis.appointmentscheduler.helper.TimeConversions.conv
 
 public class UserSQL {
 
+    /**
+     * Retrieves a list of all users from the database.
+     *
+     * @return An ObservableList containing all users.
+     */
     public static ObservableList<User> allUsers() {
         ObservableList<User> allUsers = FXCollections.observableArrayList();
 
@@ -25,6 +29,13 @@ public class UserSQL {
         return getUsers(allUsers, query);
     }
 
+    /**
+     * An SQL query to retrieve a list of users and adds them to the ObservableList.
+     *
+     * @param getUsers The ObservableList adds the Users.
+     * @param query    The SQL query to execute.
+     * @return An ObservableList with the retrieved users.
+     */
     private static ObservableList<User> getUsers(ObservableList<User> getUsers, String query) {
         try {
             PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
@@ -52,6 +63,12 @@ public class UserSQL {
         }
     }
 
+    /**
+     * Retrieves the string identifier for the User.
+     *
+     * @param username The username to retrieve.
+     * @return @return The User's name or null.
+     */
     public static User getUser(String username) {
         String query = "SELECT * FROM users WHERE User_Name = ?";
 
@@ -82,7 +99,13 @@ public class UserSQL {
         return null;
     }
 
-
+    /**
+     * Checks if a user with the username and password is located in the database.
+     *
+     * @param username The username to check.
+     * @param password The password to check.
+     * @return True if a user is located, false if not.
+     */
     public static boolean loginCheck(String username, String password) {
         String query = "SELECT * FROM users WHERE User_Name=? AND Password=?";
 
@@ -100,6 +123,5 @@ public class UserSQL {
         }
         return false;
     }
-
 
 }

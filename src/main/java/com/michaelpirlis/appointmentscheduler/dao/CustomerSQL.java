@@ -16,6 +16,12 @@ import static com.michaelpirlis.appointmentscheduler.controller.LoginController.
 
 public class CustomerSQL {
 
+    /**
+     * Retrieves all customers from the database. I had to JOIN first_level_divisions and countries on their linked keys
+     * to be able to pull all the information I wanted.
+     *
+     * @return An ObservableList with all customers.
+     */
     public static ObservableList<Customer> allCustomers() {
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
 
@@ -27,6 +33,13 @@ public class CustomerSQL {
         return getCustomers(allCustomers, query);
     }
 
+    /**
+     * An SQL query to get a list of customers and add them to the ObservableList.
+     *
+     * @param getCustomers The ObservableList to add the customers.
+     * @param query The SQL query to execute.
+     * @return An ObservableList with the customers found in the database.
+     */
     private static ObservableList<Customer> getCustomers(ObservableList<Customer> getCustomers, String query) {
         try {
             PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
@@ -51,6 +64,12 @@ public class CustomerSQL {
         }
     }
 
+    /**
+     * Creates a new customer in the database. Since I didn't build a constructor from the start that contained all the
+     * elements, I created a workaround by adding the values now and making the currentUsername static.
+     *
+     * @param customer The Customer object to create.
+     */
     public static void createCustomer(Customer customer) {
         String query = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Division_ID, Create_Date,"
                 + "Created_By, Last_Update, Last_Updated_By) values (?,?,?,?,?,?,?,?,?);";
@@ -75,6 +94,11 @@ public class CustomerSQL {
         }
     }
 
+    /**
+     * Updates the customer in the database using the provided Customer object.
+     *
+     * @param customer The Customer object with the updated information.
+     */
     public static void updateCustomer(Customer customer) {
         String query = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?,"
                 + "Division_ID = ?, Last_Update = ?, Last_Updated_By = ? WHERE Customer_ID = ?;";
@@ -98,6 +122,11 @@ public class CustomerSQL {
         }
     }
 
+    /**
+     * Deletes a customer from the database based by the customer ID.
+     *
+     * @param customerId The ID of the customer to delete.
+     */
     public static void deleteCustomer(int customerId) {
         String query = "DELETE FROM customers WHERE Customer_ID = ?;";
 
@@ -111,6 +140,13 @@ public class CustomerSQL {
         }
     }
 
+    /**
+     * Retrieves the count of customers located in a specific country. Basically reusing the query and logic of my
+     * allCustomers method.
+     *
+     * @param country The name of the country to locate the customers.
+     * @return The number of customers in the specific country.
+     */
     public static int getCustomerCountry(String country) {
         String query = "SELECT COUNT(*) FROM customers "
                 + "JOIN first_level_divisions ON customers.Division_ID = first_level_divisions.Division_ID "
@@ -132,6 +168,5 @@ public class CustomerSQL {
 
         return count;
     }
-
 
 }

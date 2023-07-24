@@ -12,6 +12,11 @@ import java.sql.SQLException;
 
 public class CountrySQL {
 
+    /**
+     * Retrieves a list of all countries from the database.
+     *
+     * @return An ObservableList with all countries.
+     */
     public static ObservableList<Country> allCountries() {
         ObservableList<Country> allCountries = FXCollections.observableArrayList();
 
@@ -20,6 +25,12 @@ public class CountrySQL {
         return getCountries(allCountries, query);
     }
 
+    /**
+     * Retrieves a country by the provided Country ID.
+     *
+     * @param countryId The Country ID to locate.
+     * @return An ObservableList with the country.
+     */
     public static ObservableList<Country> getCountry(int countryId) {
         ObservableList<Country> getCountry = FXCollections.observableArrayList();
 
@@ -43,6 +54,13 @@ public class CountrySQL {
         }
     }
 
+    /**
+     * An SQL query to retrieve a list of countries and add them to the ObservableList.
+     *
+     * @param countries The ObservableList to add the countries.
+     * @param query     The SQL query to execute.
+     * @return An ObservableList with the countries retrieved from the database.
+     */
     private static ObservableList<Country> getCountries(ObservableList<Country> countries, String query) {
         try {
             PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
@@ -60,4 +78,5 @@ public class CountrySQL {
             throw new RuntimeException(e);
         }
     }
+
 }
