@@ -13,7 +13,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,6 +28,7 @@ import static com.michaelpirlis.appointmentscheduler.controller.MainMenuControll
 
 public class CustomerAddController extends Application implements Initializable {
 
+    protected boolean errorCheck = false;
     @FXML
     private TextField customerIDTextField;
     @FXML
@@ -35,15 +39,12 @@ public class CustomerAddController extends Application implements Initializable 
     private TextField postalCodeTextField;
     @FXML
     private TextField PhoneNumberTextField;
-
     @FXML
     private ComboBox<Country> countryComboBox;
     @FXML
     private ComboBox<Division> divisionComboBox;
     @FXML
     private Button cancelButton;
-
-    protected boolean errorCheck = false;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -137,7 +138,7 @@ public class CustomerAddController extends Application implements Initializable 
     }
 
     @FXML
-    private void saveCustomerButton() {
+    private void saveCustomerButton(ActionEvent event) throws IOException {
         customerErrorHandling();
 
         if (errorCheck) {
@@ -152,10 +153,10 @@ public class CustomerAddController extends Application implements Initializable 
                     divisionComboBox.getValue().getDivisionId()
             );
 
-            CustomerSQL.createCustomer(customer); // switch to next line after updating CustomerSQL
-//            CustomerSQL.createCustomer(customer, currentUser);
+            CustomerSQL.createCustomer(customer);
             initializeCustomerForm();
             errorCheck = false;
+            backButton(event);
         }
     }
 
@@ -172,7 +173,7 @@ public class CustomerAddController extends Application implements Initializable 
     }
 
     @FXML
-    private void backButton(ActionEvent event) throws IOException {
+    void backButton(ActionEvent event) throws IOException {
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         displayScene("main-menu.fxml", appStage);
     }

@@ -31,6 +31,8 @@ import static com.michaelpirlis.appointmentscheduler.dao.CustomerSQL.allCustomer
 
 public class MainMenuController extends Application implements Initializable {
 
+    public static Customer updateCustomer;
+    public static Appointment updateAppointment;
     @FXML
     private TableColumn<Object, Object> appointmentIdColumn;
     @FXML
@@ -53,7 +55,6 @@ public class MainMenuController extends Application implements Initializable {
     private TableColumn<Object, Object> appointmentUserId;
     @FXML
     private TableView<Appointment> allAppointmentTable;
-
     @FXML
     private TableColumn<Object, Object> customerIdColumn;
     @FXML
@@ -70,7 +71,6 @@ public class MainMenuController extends Application implements Initializable {
     private TableColumn<Object, Object> customerPhoneColumn;
     @FXML
     private TableView<Customer> allCustomerTable;
-
     @FXML
     private ComboBox<String> appointmentFilter;
     @FXML
@@ -80,10 +80,7 @@ public class MainMenuController extends Application implements Initializable {
     @FXML
     private Button reportsButton;
 
-    public static Customer updateCustomer;
-    public static Appointment updateAppointment;
-
-    static void appointmentTableSetup(TableView<Appointment> allAppointmentTable,
+    public static void appointmentTableSetup(TableView<Appointment> allAppointmentTable,
                                       TableColumn<Object, Object> appointmentIdColumn,
                                       TableColumn<Object, Object> appointmentTitleColumn,
                                       TableColumn<Object, Object> appointmentDescriptionColumn,
@@ -109,7 +106,7 @@ public class MainMenuController extends Application implements Initializable {
         appointmentEndColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getApptEnd().format(formatter)));
     }
 
-    static void customerTableSetup(TableView<Customer> allCustomerTable,
+    public static void customerTableSetup(TableView<Customer> allCustomerTable,
                                    TableColumn<Object, Object> customerIdColumn,
                                    TableColumn<Object, Object> customerNameColumn,
                                    TableColumn<Object, Object> customerStreetColumn,
@@ -146,6 +143,7 @@ public class MainMenuController extends Application implements Initializable {
 
         customerTableSetup(allCustomerTable, customerIdColumn, customerNameColumn, customerStreetColumn,
                 customerPostalColumn, customerPhoneColumn, customerStateColumn, customerCountryColumn);
+
     }
 
     private void setupAppointmentFilter() {
@@ -174,6 +172,32 @@ public class MainMenuController extends Application implements Initializable {
     public void start(Stage stage) throws IOException {
         displayScene("main-menu.fxml", stage);
     }
+
+    public static void appointmentCheck() {
+        Appointment upcomingAppointment = upcomingAppointment();
+
+        if (upcomingAppointment != null) {
+
+            Alert upcomingAppointmentAlert = new Alert(Alert.AlertType.INFORMATION);
+            upcomingAppointmentAlert.setTitle("Upcoming Appointment");
+            upcomingAppointmentAlert.setHeaderText(null);
+            upcomingAppointmentAlert.setContentText("There is an appointment coming up in 15 minutes!\n\n" +
+                    "Appointment ID: " + upcomingAppointment.getApptID() + "\n" +
+                    "Appointment Date: " + upcomingAppointment.getApptStart().toLocalDate() + "\n" +
+                    "Appointment Time: " + upcomingAppointment.getApptStart().toLocalTime() + "\n" +
+                    "User ID: " + upcomingAppointment.getUserID());
+            upcomingAppointmentAlert.showAndWait();
+        } else {
+
+            Alert noUpcomingAppointmentAlert = new Alert(Alert.AlertType.INFORMATION);
+            noUpcomingAppointmentAlert.setTitle("No Upcoming Appointments");
+            noUpcomingAppointmentAlert.setHeaderText(null);
+            noUpcomingAppointmentAlert.setContentText("There are no appointments in the next 15 minutes.");
+            noUpcomingAppointmentAlert.showAndWait();
+        }
+
+    }
+
 
     private void noSelection() {
         Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
@@ -244,12 +268,6 @@ public class MainMenuController extends Application implements Initializable {
         displayScene("appointment-add.fxml", appStage);
     }
 
-//    @FXML
-//    private void updateAppointmentButton(ActionEvent event) throws IOException {
-//        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        displayScene("appointment-update.fxml", appStage);
-//    }
-
     @FXML
     private void updateAppointmentButton(ActionEvent event) throws IOException {
         updateAppointment = allAppointmentTable.getSelectionModel().getSelectedItem();
@@ -278,6 +296,12 @@ public class MainMenuController extends Application implements Initializable {
             Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             displayScene("customer-update.fxml", appStage);
         }
+    }
+
+    @FXML
+    private void reportsButton(ActionEvent event) throws IOException {
+        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        displayScene("reports.fxml", appStage);
     }
 
     @FXML

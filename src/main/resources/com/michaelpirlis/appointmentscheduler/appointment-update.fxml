@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1024.0" styleClass="scene" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.michaelpirlis.appointmentscheduler.controller.AppointmentUpdateController">
+<AnchorPane prefHeight="600.0" prefWidth="1024.0" styleClass="scene" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.michaelpirlis.appointmentscheduler.controller.AppointmentUpdateController">
    <children>
       <BorderPane layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="1024.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>

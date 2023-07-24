@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" styleClass="scene" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.michaelpirlis.appointmentscheduler.controller.MainMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" styleClass="scene" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.michaelpirlis.appointmentscheduler.controller.MainMenuController">
    <BorderPane prefHeight="600.0" prefWidth="1024.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
       <center>
          <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
@@ -145,7 +145,7 @@
                   <Insets bottom="85.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="reportsButton" layoutX="20.0" layoutY="563.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Reports">
+            <Button fx:id="reportsButton" layoutX="20.0" layoutY="563.0" mnemonicParsing="false" onAction="#reportsButton" prefHeight="25.0" prefWidth="200.0" text="Reports">
                <font>
                   <Font name="Avenir Book" size="14.0" />
                </font>

@@ -7,6 +7,7 @@ import com.michaelpirlis.appointmentscheduler.model.Country;
 import com.michaelpirlis.appointmentscheduler.model.Customer;
 import com.michaelpirlis.appointmentscheduler.model.Division;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -41,8 +42,6 @@ public class CustomerUpdateController extends CustomerAddController implements I
     private ComboBox<Division> divisionComboBox;
     @FXML
     private Button cancelButton;
-
-//    protected boolean errorCheck = false;
 
 
     @Override
@@ -79,21 +78,13 @@ public class CustomerUpdateController extends CustomerAddController implements I
      * @throws SQLException if there's an error during the database operation.
      */
     private void divisionCountryImport() throws SQLException {
-
-        // Get the division for the updateCustomer
         Division selectedDivision = DivisionSQL.getDivision(updateCustomer.getDivisionId()).get(0);
-
-        // Get the countryId for the selected division
         int countryId = selectedDivision.getCountryID();
 
-        // Get all divisions for the country and set them in the divisionComboBox
         ObservableList<Division> allDivisions = DivisionSQL.getDivisionByCountry(countryId);
         divisionComboBox.setItems(allDivisions);
-
-        // Select the division for the updateCustomer in the divisionComboBox
         divisionComboBox.getSelectionModel().select(selectedDivision);
 
-        // Get the country for the countryId and set it in the countryComboBox
         ObservableList<Country> countries = CountrySQL.getCountry(countryId);
         countryComboBox.getSelectionModel().select(countries.get(0));
     }
@@ -109,7 +100,7 @@ public class CustomerUpdateController extends CustomerAddController implements I
     }
 
     @FXML
-    private void updateCustomerButton() {
+    private void updateCustomerButton(ActionEvent event) throws IOException {
         customerErrorHandling();
 
         if (errorCheck) {
@@ -122,10 +113,11 @@ public class CustomerUpdateController extends CustomerAddController implements I
                     PhoneNumberTextField.getText(),
                     divisionComboBox.getValue().getDivisionId()
             );
-            customer.printCustomer();
+
             CustomerSQL.updateCustomer(customer);
             initializeCustomerForm();
             errorCheck = false;
+            backButton(event);
         }
     }
 

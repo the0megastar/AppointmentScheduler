@@ -1,14 +1,154 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.michaelpirlis.appointmentscheduler.controller.ReportsController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1024.0" styleClass="scene" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.michaelpirlis.appointmentscheduler.controller.ReportsController">
+    <BorderPane prefHeight="600.0" prefWidth="1024.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                <Label alignment="BOTTOM_RIGHT" prefHeight="30.0" prefWidth="890.0" styleClass="scene" text="Appointment Scheduler" textAlignment="RIGHT">
+                    <font>
+                        <Font name="Avenir Book" size="18.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="15.0" top="10.0" />
+                    </VBox.margin>
+                </Label>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="NEVER" minWidth="10.0" prefWidth="200.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label alignment="TOP_LEFT" text="Contact Schedule Report" textFill="WHITE">
+                     <font>
+                        <Font name="Avenir Book" size="16.0" />
+                     </font>
+                  </Label>
+                      <ComboBox fx:id="contactComboBox" onAction="#changeContactFilter" prefHeight="25.0" prefWidth="150.0" promptText="Contact Filter" visibleRowCount="3" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+               </children>
+            </GridPane>
+                <TableView fx:id="allAppointmentTable" focusTraversable="false" prefHeight="250.0" styleClass="font">
+                    <columns>
+                        <TableColumn fx:id="appointmentIdColumn" maxWidth="1.7976931348623157E308" prefWidth="60.0" text="Appt ID" />
+                        <TableColumn fx:id="appointmentTitleColumn" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="Title" />
+                        <TableColumn fx:id="appointmentDescriptionColumn" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="Description" />
+                        <TableColumn fx:id="appointmentTypeColumn" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="Type" />
+                        <TableColumn fx:id="appointmentStartColumn" maxWidth="1.7976931348623157E308" prefWidth="130.0" text="Start" />
+                        <TableColumn fx:id="appointmentEndColumn" maxWidth="1.7976931348623157E308" prefWidth="130.0" text="End" />
+                        <TableColumn fx:id="appointmentCustomerIdColumn" maxWidth="1.7976931348623157E308" prefWidth="128.0" text="Customer ID" />
+                    </columns>
+                    <VBox.margin>
+                        <Insets bottom="25.0" top="10.0" />
+                    </VBox.margin>
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                </TableView>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ComboBox fx:id="monthComboBox" prefHeight="25.0" prefWidth="205.0" promptText="Month" visibleRowCount="3" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="220.0" />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <ComboBox fx:id="appointmentType" layoutX="10.0" layoutY="13.0" prefHeight="25.0" prefWidth="210.0" promptText="Appointment Type" visibleRowCount="3" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <Label alignment="TOP_LEFT" text="Appointment Type By Month Report" textFill="WHITE">
+                     <font>
+                        <Font name="Avenir Book" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_LEFT" text="Customers By Country Report" textFill="WHITE" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Avenir Book" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="appointmentCountLabel" alignment="TOP_LEFT" textFill="WHITE" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                     <font>
+                        <Font name="Avenir Book" size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets top="10.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="countryCountLabel" alignment="TOP_LEFT" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                     <font>
+                        <Font name="Avenir Book" size="14.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets top="10.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <ComboBox fx:id="countryComboBox" prefHeight="25.0" prefWidth="210.0" promptText="Select Country" visibleRowCount="3" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+                <padding>
+                    <Insets right="10.0" />
+                </padding>
+            </VBox>
+        </center>
+        <left>
+            <VBox prefHeight="598.0" prefWidth="115.0" BorderPane.alignment="CENTER">
+                <padding>
+                    <Insets left="10.0" right="10.0" />
+                </padding>
+                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="scene" text="MENU">
+                    <font>
+                        <Font name="Avenir Book" size="14.0" />
+                    </font>
+                </Label>
+                <Separator>
+                    <padding>
+                        <Insets bottom="485.0" left="25.0" right="25.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                </Separator>
+                <Button fx:id="backButton" layoutX="20.0" layoutY="563.0" mnemonicParsing="false" onAction="#backButton" prefHeight="25.0" prefWidth="200.0" text="Back">
+                    <font>
+                        <Font name="Avenir Book" size="14.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="4.0" />
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exitButton" prefHeight="25.0" prefWidth="200.0" text="Exit">
+                    <font>
+                        <Font name="Avenir Book" size="14.0" />
+                    </font>
+                </Button>
+            </VBox>
+        </left>
+    </BorderPane>
 </AnchorPane>

@@ -5,6 +5,7 @@ import com.michaelpirlis.appointmentscheduler.helper.TimeConversions;
 import com.michaelpirlis.appointmentscheduler.model.Appointment;
 import com.michaelpirlis.appointmentscheduler.model.Contact;
 import com.michaelpirlis.appointmentscheduler.model.Customer;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -21,6 +22,7 @@ import java.util.ResourceBundle;
 
 import static com.michaelpirlis.appointmentscheduler.controller.MainMenuController.displayScene;
 import static com.michaelpirlis.appointmentscheduler.controller.MainMenuController.updateAppointment;
+import static com.michaelpirlis.appointmentscheduler.dao.AppointmentSQL.appointmentOverlap;
 
 public class AppointmentUpdateController extends AppointmentAddController implements Initializable {
 
@@ -118,33 +120,25 @@ public class AppointmentUpdateController extends AppointmentAddController implem
         contactID = selectedContact.getContactID();
     }
 
-    private void initializeApptForm() {
-        apptIDText.clear();
-        apptTitleText.clear();
-        apptDescriptionText.clear();
-        apptLocationText.clear();
-        startHour.getSelectionModel().clearSelection();
-        startMinute.getSelectionModel().clearSelection();
-        startDate.setValue(null);
-        endHour.getSelectionModel().clearSelection();
-        endMinute.getSelectionModel().clearSelection();
-        endDate.setValue(null);
-        appointmentType.getSelectionModel().clearSelection();
-        customerComboBox.getSelectionModel().clearSelection();
-        contactComboBox.getSelectionModel().clearSelection();
-        errorCheck = false;
-    }
-
     @FXML
-    private void updateAppointmentButton() {
+    private void updateAppointmentButton(ActionEvent event) throws IOException {
+
+        int appointmentID = Integer.parseInt(apptIDText.getText());
+        errorMessage = new StringBuilder();
+
+        setTimes();
+
+        String overlapCheck = appointmentOverlap(appointmentID, zonedStart, zonedEnd);
+        if (overlapCheck != null) {
+            errorMessage.append(overlapCheck);
+        }
+
         apptErrorHandling();
         setContactID();
 
         Timestamp lastUpdate = Timestamp.from(Instant.now());
 
         if (errorCheck) {
-            int userID = 1;
-            String currentUser = "Mike"; // later to currentUser;
 
             Appointment appointment = new Appointment(
                     Integer.parseInt(apptIDText.getText()),
@@ -162,11 +156,11 @@ public class AppointmentUpdateController extends AppointmentAddController implem
                     userID,
                     contactID
             );
-            appointment.printAppointment();
 
             AppointmentSQL.updateAppointment(appointment);
             initializeApptForm();
             errorCheck = false;
+            backButton(event);
         }
     }
 

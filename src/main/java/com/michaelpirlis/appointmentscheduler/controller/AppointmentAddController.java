@@ -25,14 +25,24 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
+import static com.michaelpirlis.appointmentscheduler.controller.LoginController.currentUserID;
+import static com.michaelpirlis.appointmentscheduler.controller.LoginController.currentUsername;
 import static com.michaelpirlis.appointmentscheduler.controller.MainMenuController.displayScene;
+import static com.michaelpirlis.appointmentscheduler.dao.AppointmentSQL.appointmentOverlap;
 import static com.michaelpirlis.appointmentscheduler.helper.TimeConversions.businessHours;
 
 public class AppointmentAddController extends Application implements Initializable {
 
     protected ObservableList<String> hours = FXCollections.observableArrayList();
     protected ObservableList<String> minutes = FXCollections.observableArrayList();
-
+    protected ZonedDateTime zonedStart;
+    protected ZonedDateTime zonedEnd;
+    protected int customerID;
+    protected int contactID;
+    protected boolean errorCheck = false;
+    protected StringBuilder errorMessage = new StringBuilder();
+    protected int userID = currentUserID;
+    protected String currentUser = currentUsername;
     @FXML
     private TextField apptTitleText;
     @FXML
@@ -59,11 +69,6 @@ public class AppointmentAddController extends Application implements Initializab
     private ComboBox<Customer> customerComboBox;
     @FXML
     private ComboBox<Contact> contactComboBox;
-    protected ZonedDateTime zonedStart;
-    protected ZonedDateTime zonedEnd;
-    protected int customerID;
-    protected int contactID;
-    protected boolean errorCheck = false;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -117,7 +122,7 @@ public class AppointmentAddController extends Application implements Initializab
     }
 
     @FXML
-    private void backButton(ActionEvent event) throws IOException {
+    protected void backButton(ActionEvent event) throws IOException {
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         displayScene("main-menu.fxml", appStage);
     }
@@ -128,9 +133,6 @@ public class AppointmentAddController extends Application implements Initializab
     }
 
     protected void apptErrorHandling() {
-        StringBuilder errorMessage = new StringBuilder();
-
-        setTimes();
         setCustomerID();
 
         if (apptTitleText.getText().isEmpty()) {
@@ -180,11 +182,14 @@ public class AppointmentAddController extends Application implements Initializab
         if (!businessHours(zonedStart, zonedEnd)) {
             errorMessage.append("Appointments must be within 8:00AM - 10:00PM Eastern Time.\n");
         }
-//
-//        String overlapCheck = appointmentOverlap(customerID, zonedStart, zonedEnd);
-//        if (overlapCheck != null) {
-//            errorMessage.append(overlapCheck);
-//        }
+
+        if (zonedEnd.isBefore(zonedStart)) {
+            errorMessage.append("End time must be after start time.\n");
+        }
+
+        if (!zonedStart.toLocalDate().equals(zonedEnd.toLocalDate())) {
+            errorMessage.append("Start and end time must be on the same day.\n");
+        }
 
         displayErrors(errorMessage);
 
@@ -203,7 +208,7 @@ public class AppointmentAddController extends Application implements Initializab
         }
     }
 
-    private void initializeApptForm() {
+    protected void initializeApptForm() {
         apptTitleText.clear();
         apptDescriptionText.clear();
         apptLocationText.clear();
@@ -229,27 +234,23 @@ public class AppointmentAddController extends Application implements Initializab
         contactID = selectedContact.getContactID();
     }
 
-    private void setTimes() {
+    protected void setTimes() {
         zonedStart = TimeConversions.timeCollection(startHour, startMinute, startDate);
         zonedEnd = TimeConversions.timeCollection(endHour, endMinute, endDate);
-
-//        if (startHour.getSelectionModel().getSelectedItem() != null &&
-//                startMinute.getSelectionModel().getSelectedItem() != null &&
-//                startDate.getValue() != null) {
-//            zonedStart = TimeConversions.timeCollection(startHour, startMinute, startDate);
-//            System.out.println("zonedStart set to: " + zonedStart);
-//        }
-//
-//        if (endHour.getSelectionModel().getSelectedItem() != null &&
-//                endMinute.getSelectionModel().getSelectedItem() != null &&
-//                endDate.getValue() != null) {
-//            zonedEnd = TimeConversions.timeCollection(endHour, endMinute, endDate);
-//            System.out.println("zonedEnd set to: " + zonedEnd);
-//        }
     }
 
     @FXML
-    private void saveAppointmentButton() {
+    private void saveAppointmentButton(ActionEvent event) throws IOException {
+        int appointmentID = 0;
+        errorMessage = new StringBuilder();
+
+        setTimes();
+
+        String overlapCheck = appointmentOverlap(appointmentID, zonedStart, zonedEnd);
+        if (overlapCheck != null) {
+            errorMessage.append(overlapCheck);
+        }
+
         apptErrorHandling();
         setContactID();
 
@@ -260,9 +261,6 @@ public class AppointmentAddController extends Application implements Initializab
         Timestamp lastUpdate = Timestamp.from(Instant.now());
 
         if (errorCheck) {
-            int appointmentID = 0;
-            int userID = 1;
-            String currentUser = "Mike"; // later to currentUser;
 
             Appointment appointment = new Appointment(
                     appointmentID,
@@ -284,6 +282,7 @@ public class AppointmentAddController extends Application implements Initializab
             AppointmentSQL.createAppointment(appointment);
             initializeApptForm();
             errorCheck = false;
+            backButton(event);
         }
     }
 }

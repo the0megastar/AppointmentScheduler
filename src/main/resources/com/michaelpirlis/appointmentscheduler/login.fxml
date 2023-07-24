@@ -13,106 +13,91 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1024.0" styleClass="scene" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.michaelpirlis.appointmentscheduler.controller.LoginController">
+<AnchorPane prefHeight="600.0" prefWidth="1024.0" styleClass="scene" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.michaelpirlis.appointmentscheduler.controller.LoginController">
     <children>
         <BorderPane layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="1024.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <center>
-                <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-                    <padding>
-                        <Insets right="10.0" />
-                    </padding>
-                    <children>
-                        <Label alignment="BOTTOM_RIGHT" prefHeight="30.0" prefWidth="890.0" styleClass="scene" text="Login                                                                                                                             Appointment Scheduler" textAlignment="RIGHT">
+                <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+            </center>
+         <top>
+                  <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
+                      <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="285.0" />
+                          <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="285.0" />
+                      </columnConstraints>
+                      <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                          <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="375.0" vgrow="SOMETIMES" />
+                      </rowConstraints>
+                      <children>
+                          <Label fx:id="usernameLabel" contentDisplay="CENTER" prefHeight="30.0" prefWidth="150.0" styleClass="scene" text="Username" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <font>
+                                  <Font name="Avenir Book" size="14.0" />
+                              </font>
+                              <GridPane.margin>
+                                  <Insets />
+                              </GridPane.margin>
+                              <padding>
+                                  <Insets left="25.0" />
+                              </padding>
+                          </Label>
+                          <Label fx:id="passwordLabel" contentDisplay="CENTER" prefHeight="30.0" prefWidth="150.0" styleClass="scene" text="Password" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <font>
+                                  <Font name="Avenir Book" size="14.0" />
+                              </font>
+                              <GridPane.margin>
+                                  <Insets />
+                              </GridPane.margin>
+                              <padding>
+                                  <Insets left="25.0" />
+                              </padding>
+                          </Label>
+                          <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exitButton" prefHeight="25.0" prefWidth="195.0" styleClass="newButton" text="Exit" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                              <font>
+                                  <Font name="Avenir Book" size="14.0" />
+                              </font>
+                              <GridPane.margin>
+                                  <Insets left="25.0" />
+                              </GridPane.margin>
+                          </Button>
+                          <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loginButton" prefHeight="25.0" prefWidth="195.0" styleClass="newButton" text="Login" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
+                              <GridPane.margin>
+                                  <Insets right="25.0" />
+                              </GridPane.margin>
+                              <font>
+                                  <Font size="14.0" />
+                              </font>
+                          </Button>
+                  <PasswordField fx:id="passwordField" alignment="CENTER" focusTraversable="false" minHeight="30.0" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets left="25.0" right="25.0" />
+                     </GridPane.margin>
+                  </PasswordField>
+                  <Label fx:id="zoneLabel" text="Zone" textFill="#4b91f7" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font name="Avenir Book" size="14.0" />
+                     </font>
+                  </Label>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="454.0" styleClass="scene" text="Appointment Scheduler :: Login" textAlignment="RIGHT" GridPane.columnIndex="1">
                             <font>
                                 <Font name="Avenir Book" size="18.0" />
                             </font>
-                            <VBox.margin>
-                                <Insets bottom="-36.0" top="10.0" />
-                            </VBox.margin>
                         </Label>
-                        <GridPane alignment="CENTER">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="375.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
-                            <children>
-                                <TextField fx:id="usernameField" alignment="CENTER" focusTraversable="false" prefWidth="400.0" promptText="Username" GridPane.rowIndex="1">
-                                    <GridPane.margin>
-                                        <Insets left="25.0" right="25.0" />
-                                    </GridPane.margin>
-                                </TextField>
-                                <Label contentDisplay="CENTER" prefHeight="30.0" prefWidth="150.0" styleClass="scene" text="Username">
-                                    <font>
-                                        <Font name="Avenir Book" size="14.0" />
-                                    </font>
-                                    <GridPane.margin>
-                                        <Insets />
-                                    </GridPane.margin>
-                                    <padding>
-                                        <Insets left="25.0" />
-                                    </padding>
-                                </Label>
-                                <Label contentDisplay="CENTER" prefHeight="30.0" prefWidth="150.0" styleClass="scene" text="Password" GridPane.rowIndex="2">
-                                    <font>
-                                        <Font name="Avenir Book" size="14.0" />
-                                    </font>
-                                    <GridPane.margin>
-                                        <Insets />
-                                    </GridPane.margin>
-                                    <padding>
-                                        <Insets left="25.0" />
-                                    </padding>
-                                </Label>
-                                <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exitButton" prefHeight="25.0" prefWidth="195.0" styleClass="newButton" text="Exit" GridPane.rowIndex="5">
-                                    <font>
-                                        <Font name="Avenir Book" size="14.0" />
-                                    </font>
-                                    <GridPane.margin>
-                                        <Insets left="25.0" />
-                                    </GridPane.margin>
-                                </Button>
-                                <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loginButton" prefHeight="25.0" prefWidth="195.0" styleClass="newButton" text="Login" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
-                                    <GridPane.margin>
-                                        <Insets right="25.0" />
-                                    </GridPane.margin>
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                </Button>
-                        <PasswordField fx:id="passwordField" alignment="CENTER" focusTraversable="false" promptText="Password" GridPane.rowIndex="3">
-                           <GridPane.margin>
-                              <Insets left="25.0" right="25.0" />
-                           </GridPane.margin>
-                        </PasswordField>
-                        <Label fx:id="zoneLabel" text="Zone ID" textFill="#4b91f7" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
-                           <font>
-                              <Font name="Avenir Book" size="14.0" />
-                           </font>
-                        </Label>
-                            </children>
-                            <VBox.margin>
-                                <Insets top="50.0" />
-                            </VBox.margin>
-                        </GridPane>
-                    </children>
-                </VBox>
-            </center>
-            <left>
-                <VBox prefHeight="598.0" prefWidth="115.0" BorderPane.alignment="CENTER">
-                    <padding>
-                        <Insets left="10.0" right="10.0" />
-                    </padding>
-                </VBox>
-            </left>
+                  <TextField fx:id="usernameField" alignment="CENTER" focusTraversable="false" minHeight="30.0" promptText="Username" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="25.0" right="25.0" />
+                     </GridPane.margin>
+                  </TextField>
+                      </children>
+                  </GridPane>
+         </top>
         </BorderPane>
     </children>
 </AnchorPane>

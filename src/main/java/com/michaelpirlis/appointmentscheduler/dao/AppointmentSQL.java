@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import static com.michaelpirlis.appointmentscheduler.helper.TimeConversions.convertTime;
@@ -30,9 +31,6 @@ public class AppointmentSQL {
                 ZonedDateTime startDateTime = convertTime(startTimestamp);
                 ZonedDateTime endDateTime = convertTime(endTimestamp);
                 ZonedDateTime createDate = convertTime(createDateTimestamp);
-//                ZonedDateTime startDateTime = (startTimestamp != null) ? convertTime(startTimestamp) : null;
-//                ZonedDateTime endDateTime = (endTimestamp != null) ? convertTime(endTimestamp) : null;
-//                ZonedDateTime createDate = (createDateTimestamp != null) ? convertTime(createDateTimestamp) : null;
 
                 Appointment appointment = new Appointment(
                         resultSet.getInt("Appointment_ID"),
@@ -85,6 +83,21 @@ public class AppointmentSQL {
         return getAppointments(monthlyAppointments, query);
     }
 
+    public static ObservableList<Appointment> contactAppointments(int contactID) {
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+
+        String query = "SELECT * FROM Appointments WHERE Contact_ID = " + contactID;
+
+        try {
+            appointments = getAppointments(appointments, query);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return appointments;
+    }
+
+
     public static void deleteAppointments(int appointmentID) {
         String query = "DELETE FROM appointments WHERE Appointment_ID = ?;";
 
@@ -111,30 +124,30 @@ public class AppointmentSQL {
         }
     }
 
-    public static String appointmentOverlap(int customerID, ZonedDateTime start, ZonedDateTime end) {
-        String query = "SELECT * FROM appointments WHERE Customer_ID = ? "
-                + "AND ((Start <= ? AND End > ?) OR (End > ? AND Start < ?) OR (Start < ? AND End >= ?))";
+    public static String appointmentOverlap(int apptID, ZonedDateTime start, ZonedDateTime end) {
+        String query = "SELECT * FROM appointments WHERE ((Start BETWEEN ? AND ?) OR (End BETWEEN ? AND ?) "
+                + "OR (? BETWEEN Start AND End) OR (? BETWEEN Start AND End)) AND Appointment_ID != ?";
 
         try {
             PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
-            preparedStatement.setInt(1, customerID);
-            preparedStatement.setTimestamp(2, Timestamp.from(start.toInstant()));
-            preparedStatement.setTimestamp(3, Timestamp.from(end.toInstant()));
-            preparedStatement.setTimestamp(4, Timestamp.from(start.toInstant()));
-            preparedStatement.setTimestamp(5, Timestamp.from(end.toInstant()));
-            preparedStatement.setTimestamp(6, Timestamp.from(start.toInstant()));
-            preparedStatement.setTimestamp(7, Timestamp.from(end.toInstant()));
-
+            preparedStatement.setTimestamp(1, Timestamp.from(start.toInstant()));
+            preparedStatement.setTimestamp(2, Timestamp.from(end.toInstant()));
+            preparedStatement.setTimestamp(3, Timestamp.from(start.toInstant()));
+            preparedStatement.setTimestamp(4, Timestamp.from(end.toInstant()));
+            preparedStatement.setTimestamp(5, Timestamp.from(start.toInstant()));
+            preparedStatement.setTimestamp(6, Timestamp.from(end.toInstant()));
+            preparedStatement.setInt(7, apptID);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                return "Appointment times overlap with an existing appointment for this customer.";
+                return "Appointment times overlap with an existing appointment.";
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return null;
     }
+
 
     /**
      * PreparedStatement.setTimestamp() expects a Timestamp, not a ZonedDateTime.
@@ -183,7 +196,7 @@ public class AppointmentSQL {
             preparedStatement.setString(4, appointment.getApptType());
             preparedStatement.setTimestamp(5, Timestamp.from(appointment.getApptStart().toInstant()));
             preparedStatement.setTimestamp(6, Timestamp.from(appointment.getApptEnd().toInstant()));
-            preparedStatement.setTimestamp(7, Timestamp.from(appointment.getCreateDate().toInstant()));
+            preparedStatement.setTimestamp(7, Timestamp.valueOf(appointment.getLastUpdate().toLocalDateTime()));
             preparedStatement.setString(8, appointment.getLastUpdatedBy());
             preparedStatement.setInt(9, appointment.getCustomerID());
             preparedStatement.setInt(10, appointment.getUserID());
@@ -195,5 +208,59 @@ public class AppointmentSQL {
             throw new RuntimeException(e);
         }
     }
+
+    public static Appointment upcomingAppointment() {
+        String query = "SELECT * FROM appointments WHERE Start BETWEEN NOW() AND NOW() + INTERVAL 15 MINUTE;";
+        try {
+            PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int apptID = resultSet.getInt("Appointment_ID");
+                String apptTitle = resultSet.getString("Title");
+                String apptDescription = resultSet.getString("Description");
+                String apptLocation = resultSet.getString("Location");
+                String apptType = resultSet.getString("Type");
+                ZonedDateTime apptStart = resultSet.getTimestamp("Start").toInstant().atZone(ZoneId.systemDefault());
+                ZonedDateTime apptEnd = resultSet.getTimestamp("End").toInstant().atZone(ZoneId.systemDefault());
+                ZonedDateTime createDate = resultSet.getTimestamp("Create_Date").toInstant().atZone(ZoneId.systemDefault());
+                String createdBy = resultSet.getString("Created_By");
+                Timestamp lastUpdate = resultSet.getTimestamp("Last_Update");
+                String lastUpdatedBy = resultSet.getString("Last_Updated_By");
+                int customerID = resultSet.getInt("Customer_ID");
+                int userID = resultSet.getInt("User_ID");
+                int contactID = resultSet.getInt("Contact_ID");
+
+                return new Appointment(apptID, apptTitle, apptDescription, apptLocation, apptType,
+                        apptStart, apptEnd, createDate, createdBy, lastUpdate,
+                        lastUpdatedBy, customerID, userID, contactID);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public static int appointmentMonthType(String type, String month) {
+        String query = "SELECT COUNT(*) FROM appointments WHERE Type = ? AND MONTHNAME(Start) = ?;";
+        int count = 0;
+
+        try {
+            PreparedStatement preparedStatement = JDBC.connection.prepareStatement(query);
+            preparedStatement.setString(1, type);
+            preparedStatement.setString(2, month);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+
+
 
 }
