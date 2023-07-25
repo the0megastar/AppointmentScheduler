@@ -225,7 +225,7 @@ public class ReportsController extends Application implements Initializable {
     private void setupMonthCombo() {
         ObservableList<String> monthNames = FXCollections.observableArrayList();
         for (Month month : Month.values()) {
-            monthNames.add(month.getDisplayName(TextStyle.FULL, Locale.getDefault()));
+            monthNames.add(month.getDisplayName(TextStyle.FULL, Locale.ENGLISH));
         }
         monthComboBox.setItems(monthNames);
     }

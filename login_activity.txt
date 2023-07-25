@@ -96,3 +96,21 @@ Jul 24, 2023 4:48:24 PM com.michaelpirlis.appointmentscheduler.controller.LoginC
 INFO: Unsuccessful login attempt by user 'test' at 2023-07-24 16:48:24 [America/New_York]
 Jul 24, 2023 4:48:33 PM com.michaelpirlis.appointmentscheduler.controller.LoginController loginButton
 INFO: Successful login by user 'test' at 2023-07-24 16:48:33 [America/New_York]
+Jul 24, 2023 5:37:46 PM com.michaelpirlis.appointmentscheduler.controller.LoginController loginButton
+INFO: Successful login by user 'test' at 2023-07-24 17:37:46 [America/New_York]
+Jul 24, 2023 8:30:36 PM com.michaelpirlis.appointmentscheduler.controller.LoginController loginButton
+INFO: Successful login by user 'test' at 2023-07-24 20:30:36 [America/New_York]
+Jul 24, 2023 8:41:54 PM com.michaelpirlis.appointmentscheduler.controller.LoginController loginButton
+INFO: Successful login by user 'test' at 2023-07-24 20:41:54 [America/New_York]
+Jul 24, 2023 8:46:11 PM com.michaelpirlis.appointmentscheduler.controller.LoginController loginButton
+INFO: Successful login by user 'Test' at 2023-07-24 20:46:11 [America/New_York]
+juill. 25, 2023 9:10:05 A.M. com.michaelpirlis.appointmentscheduler.controller.LoginController loginButton
+INFO: Successful login by user 'TEST' at 2023-07-25 09:10:05 [America/New_York]
+juill. 25, 2023 9:11:34 A.M. com.michaelpirlis.appointmentscheduler.controller.LoginController loginButton
+INFO: Successful login by user 'test' at 2023-07-25 09:11:34 [America/New_York]
+Jul 25, 2023 9:22:50 AM com.michaelpirlis.appointmentscheduler.controller.LoginController loginButton
+INFO: Successful login by user 'TEST' at 2023-07-25 09:22:50 [America/New_York]
+Jul 25, 2023 9:28:34 AM com.michaelpirlis.appointmentscheduler.controller.LoginController loginButton
+INFO: Successful login by user 'TEST' at 2023-07-25 09:28:34 [America/New_York]
+Jul 25, 2023 9:31:03 AM com.michaelpirlis.appointmentscheduler.controller.LoginController loginButton
+INFO: Successful login by user 'TEST' at 2023-07-25 09:31:03 [America/New_York]

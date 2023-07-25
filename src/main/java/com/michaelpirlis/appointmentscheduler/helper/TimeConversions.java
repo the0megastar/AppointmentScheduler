@@ -36,9 +36,8 @@ public class TimeConversions {
         LocalDate apptDateTime = apptDate.getValue();
 
         LocalDateTime startDateTime = LocalDateTime.of(apptDateTime, LocalTime.of(hour, minute));
-        ZonedDateTime zonedApptTime = ZonedDateTime.of(startDateTime, ZoneId.systemDefault());
 
-        return zonedApptTime.withZoneSameInstant(ZoneId.of("UTC"));
+        return ZonedDateTime.of(startDateTime, ZoneId.systemDefault());
     }
 
     /**

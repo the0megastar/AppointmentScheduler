@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
@@ -331,8 +332,8 @@ public class AppointmentAddController extends Application implements Initializab
                     apptDescriptionText.getText(),
                     apptLocationText.getText(),
                     appointmentType.getValue(),
-                    zonedStart,
-                    zonedEnd,
+                    zonedStart.withZoneSameInstant(ZoneId.of("UTC")),
+                    zonedEnd.withZoneSameInstant(ZoneId.of("UTC")),
                     TimeConversions.currentZoned(),
                     currentUser,
                     lastUpdate,
