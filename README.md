@@ -9,7 +9,6 @@ A special report (A3f) is included which shows the quantity of users by the sele
 Author: Michael Pirlis
 Contact Information: 
     School Email - mpirlis@wgu.edu
-    Personal Email - m.pirlis@icloud.com
 
 Application Version: 1.1
 Date: July 24th, 2023
