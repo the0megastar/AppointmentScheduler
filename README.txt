@@ -23,6 +23,3 @@ Directions to Run Program:
 1. Launch the Login.java file which brings up the login page.
 2. Enter your login details and sign in.
 3. Successful login will lead you to the main page, where you can access all application features.
-
-Description of Additional Report (A3f): 
-This report displays the quantity of users by the selected country, providing an overview of user distribution across different geographical locations.
